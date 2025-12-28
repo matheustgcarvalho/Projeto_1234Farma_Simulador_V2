@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>1234Farma - Cadastro</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root { --tech-purple: #2E1A47; --neon-mint: #69FFC2; --pure-white: #FFFFFF; --warning-red: #ff4757; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+        body { height: 100vh; overflow: hidden; }
+
+        /* FUNDO E WRAPPER */
+        .screen-wrapper {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--tech-purple) 0%, #1a0f2e 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; color: var(--pure-white);
+        }
+
+        /* CONTAINER DE VIDRO */
+        .form-container {
+            background-color: rgba(255,255,255,0.05);
+            padding: 30px; border-radius: 20px;
+            border: 2px solid rgba(105, 255, 194, 0.3);
+            box-shadow: 0 0 30px rgba(105, 255, 194, 0.15);
+            width: 100%; max-width: 450px;
+            backdrop-filter: blur(10px);
+            display: flex; flex-direction: column; gap: 15px;
+            max-height: 90vh; overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .logo-area { font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .logo-area .material-icons { font-size: 2rem; color: var(--neon-mint); }
+
+        .page-title { font-size: 1.1rem; text-align: center; margin-bottom: 15px; opacity: 0.8; font-weight: 400; }
+
+        /* INPUTS */
+        .input-group { display: flex; flex-direction: column; text-align: left; }
+        .input-label { font-size: 0.85rem; font-weight: 700; color: var(--neon-mint); margin-bottom: 5px; margin-left: 5px; }
+        
+        .custom-input {
+            width: 100%; padding: 12px 15px; font-size: 1rem; border-radius: 10px;
+            border: 1px solid rgba(105, 255, 194, 0.4);
+            background-color: rgba(255,255,255,0.1); color: var(--pure-white);
+            outline: none; transition: all 0.3s;
+        }
+        .custom-input:focus { border-color: var(--neon-mint); background-color: rgba(255,255,255,0.15); box-shadow: 0 0 10px rgba(105, 255, 194, 0.2); }
+
+        /* ROW PARA NOME/SOBRENOME */
+        .row-inputs { display: flex; gap: 10px; }
+        .row-inputs .input-group { flex: 1; }
+
+        /* BOTÕES */
+        .btn-register {
+            width: 100%; padding: 15px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase;
+            border-radius: 12px; border: none; background-color: var(--neon-mint); color: var(--tech-purple);
+            cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: 0.2s;
+        }
+        .btn-register:active { transform: scale(0.98); }
+
+        .btn-back {
+            background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6);
+            padding: 10px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; margin-top: 5px;
+        }
+        .btn-back:hover { background-color: rgba(255,255,255,0.05); color: white; }
+
+        /* MENSAGEM NA TELA */
+        .message-box {
+            display: none; 
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 600;
+            animation: fadeIn 0.3s ease-in-out;
+            margin-bottom: 10px;
+            border-width: 2px;
+        }
+        .msg-error {
+            background-color: rgba(255, 71, 87, 0.2);
+            border: 2px solid var(--warning-red);
+            color: #ff8a93;
+        }
+        .msg-success {
+            background-color: rgba(105, 255, 194, 0.2);
+            border: 2px solid var(--neon-mint);
+            color: var(--neon-mint);
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="screen-wrapper">
+        <div class="form-container" id="formContainer">
+            <div class="logo-area">
+                <span class="material-icons">local_pharmacy</span> 1234Farma
+            </div>
+            <div class="page-title">Crie sua conta para continuar</div>
+
+            <div id="msgBox" class="message-box"></div>
+
+            <div class="row-inputs">
+                <div class="input-group">
+                    <label class="input-label">Nome</label>
+                    <input type="text" id="nome" class="custom-input" placeholder="Seu nome">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Sobrenome</label>
+                    <input type="text" id="sobrenome" class="custom-input" placeholder="Sobrenome">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">CPF</label>
+                <input type="tel" id="cpf" class="custom-input" placeholder="000.000.000-00" maxlength="14">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">E-mail</label>
+                <input type="email" id="email" class="custom-input" placeholder="exemplo@email.com">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Senha</label>
+                <input type="password" id="senha" class="custom-input" placeholder="******">
+            </div>
+
+            <button id="btnRegister" class="btn-register">
+                FINALIZAR CADASTRO <span class="material-icons">check_circle</span>
+            </button>
+
+            <button onclick="window.location.href='login.html'" class="btn-back">
+                Voltar para Login
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const btnRegister = document.getElementById('btnRegister');
+        const msgBox = document.getElementById('msgBox');
+        
+        const inputs = {
+            nome: document.getElementById('nome'),
+            sobrenome: document.getElementById('sobrenome'),
+            cpf: document.getElementById('cpf'),
+            email: document.getElementById('email'),
+            senha: document.getElementById('senha')
+        };
+
+        // Máscara de CPF
+        inputs.cpf.addEventListener('input', function (e) {
+            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
+            e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + (x[3] ? '.' + x[3] : '') + (x[4] ? '-' + x[4] : '');
+        });
+
+        // Limpa mensagem e bordas ao digitar
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', () => {
+                // Remove apenas o estilo de erro visual, mantém a msgBox visível se for sucesso
+                if(!btnRegister.classList.contains('cadastrado')) {
+                    msgBox.style.display = 'none';
+                }
+                input.style.borderColor = 'rgba(105, 255, 194, 0.4)'; 
+            });
+        });
+
+        function mostrarMensagem(texto, tipo) {
+            msgBox.textContent = texto;
+            msgBox.className = 'message-box';
+            msgBox.classList.add(tipo === 'erro' ? 'msg-error' : 'msg-success');
+            msgBox.style.display = 'block';
+            
+            // Força rolagem até a mensagem
+            setTimeout(() => {
+                msgBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 10);
+        }
+
+        // Ação de Cadastrar
+        btnRegister.addEventListener('click', function() {
+            
+            // Verifica se já está cadastrado (comportamento de "Ir para Login")
+            if (this.innerText.includes('IR PARA LOGIN')) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // 1. Validação
+            if(inputs.nome.value.trim() === '') {
+                mostrarMensagem("Por favor, preencha o Nome.", "erro");
+                inputs.nome.focus();
+                return;
+            }
+
+            if(inputs.sobrenome.value.trim() === '') {
+                mostrarMensagem("Por favor, preencha o Sobrenome.", "erro");
+                inputs.sobrenome.focus();
+                return;
+            }
+
+            if(inputs.cpf.value.length < 14) {
+                mostrarMensagem("CPF inválido ou incompleto.", "erro");
+                inputs.cpf.focus();
+                return;
+            }
+
+            if(inputs.email.value.trim() === '') {
+                mostrarMensagem("Por favor, preencha o E-mail.", "erro");
+                inputs.email.focus();
+                return;
+            }
+
+            if(inputs.senha.value.trim() === '') {
+                mostrarMensagem("Crie uma senha para continuar.", "erro");
+                inputs.senha.focus();
+                return;
+            }
+
+            // 2. SUCESSO
+            const nomeCompleto = `${inputs.nome.value} ${inputs.sobrenome.value}`;
+            sessionStorage.setItem('usuarioCadastroTemp', nomeCompleto); 
+
+            // Mensagem solicitada
+            mostrarMensagem("Cadastro Sucesso! Volte ao login e entre com seu CPF.", "sucesso");
+            
+            // Altera o botão para facilitar a navegação
+            btnRegister.innerHTML = 'IR PARA LOGIN <span class="material-icons">login</span>';
+            btnRegister.classList.add('cadastrado'); // Marca como finalizado
+        });
+    </script>
+
+</body>
+</html>

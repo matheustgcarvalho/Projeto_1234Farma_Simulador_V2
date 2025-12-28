@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FarmaFácil - Pagamento</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+       :root { --tech-purple: #2E1A47; --neon-mint: #69FFC2; --pure-white: #FFFFFF; --warning-red: #ff4757; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+        
+        /* Ajuste de escala */
+        body { background-color: var(--tech-purple); color: var(--pure-white); height: 100vh; display: flex; flex-direction: column; overflow: hidden; font-size: 13px; }
+        
+        header { background-color: rgba(46, 26, 71, 0.95); padding: 10px 15px; display: flex; align-items: center; border-bottom: 1px solid var(--neon-mint); flex-shrink: 0; gap: 10px; }
+        .btn-back { text-decoration: none; color: var(--neon-mint); display: flex; align-items: center; gap: 5px; font-weight: 700; border: 1px solid var(--neon-mint); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; transition: all 0.3s;}
+        .btn-back:hover { background-color: var(--neon-mint); color: var(--tech-purple); }
+        .header-title { font-size: 1rem; font-weight: 700; margin-left: auto; margin-right: auto; }
+
+        main { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+        /* Resumo menor */
+        .payment-summary { text-align: center; margin-bottom: 20px; background-color: rgba(0,0,0,0.2); width: 100%; padding: 10px; border-radius: 10px;}
+        .payment-label { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 2px; }
+        .payment-value { font-size: 1.8rem; font-weight: 800; color: var(--neon-mint); }
+
+        /* Lista de Métodos em 1 coluna */
+        .methods-grid { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-bottom: 15px; }
+        
+        .method-card {
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .method-card:hover, .method-card.active { border-color: var(--neon-mint); background-color: rgba(105, 255, 194, 0.1); }
+        
+        .method-icon { font-size: 1.8rem; color: var(--pure-white); }
+        .method-name { font-weight: 700; font-size: 1rem; }
+
+        /* Área Dinâmica Compacta */
+        .dynamic-content {
+            width: 100%;
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed rgba(255,255,255,0.2);
+        }
+
+        .instruction-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: var(--pure-white); }
+        .instruction-text { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 15px; }
+        .card-animation { font-size: 3.5rem; color: var(--neon-mint); animation: pulse 2s infinite; margin-bottom: 10px; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+
+        .pix-container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .qr-image { width: 130px; height: 130px; border-radius: 8px; border: 3px solid white; }
+        
+        .success-screen { display: none; flex-direction: column; align-items: center; animation: fadeIn 0.5s; height: 100%; justify-content: center;}
+        .success-icon { font-size: 4rem; color: var(--neon-mint); margin-bottom: 10px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .spinner { border: 3px solid rgba(255,255,255,0.1); border-left-color: var(--neon-mint); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="carrinho.html" class="btn-back"><span class="material-icons" style="font-size:1rem;">arrow_back</span> Voltar</a>
+        <div class="header-title">Pagamento</div>
+        <div style="width: 60px;"></div>
+    </header>
+
+    <main>
+        <div class="payment-summary">
+            <div class="payment-label">Total</div>
+            <div id="totalDisplay" class="payment-value">R$ 0,00</div>
+        </div>
+
+        <div class="methods-grid">
+            <div class="method-card" onclick="selectMethod('credit')">
+                <span class="material-icons method-icon">credit_card</span>
+                <span class="method-name">Crédito</span>
+            </div>
+            <div class="method-card" onclick="selectMethod('debit')">
+                <span class="material-icons method-icon">payments</span>
+                <span class="method-name">Débito</span>
+            </div>
+            <div class="method-card" onclick="selectMethod('pix')">
+                <span class="material-icons method-icon">qr_code_2</span>
+                <span class="method-name">PIX</span>
+            </div>
+        </div>
+
+        <div id="dynamicContent" class="dynamic-content">
+            <span class="material-icons" style="font-size: 3rem; color: rgba(255,255,255,0.2);">touch_app</span>
+            <p style="color: rgba(255,255,255,0.5); margin-top: 10px; font-size: 0.9rem;">Selecione uma forma de pagamento.</p>
+        </div>
+    </main>
+
+    <script>
+        let carrinho = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            carrinho = JSON.parse(sessionStorage.getItem('carrinhoFarmaFacil')) || [];
+            let total = 0;
+            carrinho.forEach(item => total += item.preco);
+            document.getElementById('totalDisplay').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+        });
+
+        function selectMethod(method) {
+            const container = document.getElementById('dynamicContent');
+            const cards = document.querySelectorAll('.method-card');
+            cards.forEach(card => card.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            if (method === 'credit') showCardMachineScreen(container, 'Crédito');
+            else if (method === 'debit') showCardMachineScreen(container, 'Débito');
+            else if (method === 'pix') showPixScreen(container);
+        }
+
+        function showCardMachineScreen(container, type) {
+            container.innerHTML = `
+                <div class="instruction-title">Use a Maquininha (${type})</div>
+                <span class="material-icons card-animation">point_of_sale</span>
+                <p class="instruction-text">Insira ou aproxime o cartão.</p>
+                <div class="spinner"></div>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Aguardando...</p>
+            `;
+            setTimeout(() => showSuccess(container), 4000);
+        }
+
+        function showPixScreen(container) {
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=FarmaFacilPixTest`;
+            container.innerHTML = `
+                <div class="instruction-title">Pagamento via PIX</div>
+                <div class="pix-container">
+                    <img src="${qrUrl}" class="qr-image" alt="QR Code">
+                    <button onclick="simularPagamentoPix()" style="background-color: var(--neon-mint); border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; color: var(--tech-purple); margin-top: 5px; font-size: 0.8rem;">SIMULAR PAGAMENTO</button>
+                </div>
+            `;
+        }
+
+        window.simularPagamentoPix = function() {
+            const container = document.getElementById('dynamicContent');
+            container.innerHTML = `<div class="spinner"></div><p>Validando...</p>`;
+            setTimeout(() => showSuccess(container), 2000);
+        }
+
+        function showSuccess(container) {
+            container.innerHTML = `
+                <div class="success-screen" style="display: flex;">
+                    <span class="material-icons success-icon">check_circle</span>
+                    <div class="instruction-title" style="color: var(--neon-mint);">Aprovado!</div>
+                    <p class="instruction-text">Liberando produtos...</p>
+                </div>
+            `;
+
+            // Envia sinal para o Simulador
+            window.parent.postMessage({ action: 'DISPENSAR_PRODUTOS', carrinho: carrinho }, '*');
+
+            setTimeout(() => {
+                sessionStorage.removeItem('carrinhoFarmaFacil'); 
+                window.location.href = 'loja.html';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
