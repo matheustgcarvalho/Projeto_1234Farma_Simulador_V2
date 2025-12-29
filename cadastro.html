@@ -6,233 +6,249 @@
     <title>1234Farma - Cadastro</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        :root { --tech-purple: #2E1A47; --neon-mint: #69FFC2; --pure-white: #FFFFFF; --warning-red: #ff4757; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
-        body { height: 100vh; overflow: hidden; }
-
-        /* FUNDO E WRAPPER */
-        .screen-wrapper {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--tech-purple) 0%, #1a0f2e 100%);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 20px; color: var(--pure-white);
+        :root { 
+            --tech-purple: #2E1A47; 
+            --neon-mint: #00D284; 
+            --pure-white: #FFFFFF; 
+            --page-bg: #F4F6F9;       
+            --input-bg: #E9ECEF;
+            --shadow-soft: 0 10px 30px rgba(46, 26, 71, 0.08);
         }
 
-        /* CONTAINER DE VIDRO */
-        .form-container {
-            background-color: rgba(255,255,255,0.05);
-            padding: 30px; border-radius: 20px;
-            border: 2px solid rgba(105, 255, 194, 0.3);
-            box-shadow: 0 0 30px rgba(105, 255, 194, 0.15);
-            width: 100%; max-width: 450px;
-            backdrop-filter: blur(10px);
-            display: flex; flex-direction: column; gap: 15px;
-            max-height: 90vh; overflow-y: auto;
-            scroll-behavior: smooth;
-        }
-
-        .logo-area { font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .logo-area .material-icons { font-size: 2rem; color: var(--neon-mint); }
-
-        .page-title { font-size: 1.1rem; text-align: center; margin-bottom: 15px; opacity: 0.8; font-weight: 400; }
-
-        /* INPUTS */
-        .input-group { display: flex; flex-direction: column; text-align: left; }
-        .input-label { font-size: 0.85rem; font-weight: 700; color: var(--neon-mint); margin-bottom: 5px; margin-left: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
         
-        .custom-input {
-            width: 100%; padding: 12px 15px; font-size: 1rem; border-radius: 10px;
-            border: 1px solid rgba(105, 255, 194, 0.4);
-            background-color: rgba(255,255,255,0.1); color: var(--pure-white);
-            outline: none; transition: all 0.3s;
+        body { 
+            height: 100vh; overflow: hidden; background-color: var(--page-bg);
+            color: var(--tech-purple); display: flex; flex-direction: column;
         }
-        .custom-input:focus { border-color: var(--neon-mint); background-color: rgba(255,255,255,0.15); box-shadow: 0 0 10px rgba(105, 255, 194, 0.2); }
 
-        /* ROW PARA NOME/SOBRENOME */
-        .row-inputs { display: flex; gap: 10px; }
-        .row-inputs .input-group { flex: 1; }
+        .screen-wrapper {
+            width: 100%; height: 100%; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; padding: 20px;
+            transition: transform 0.3s ease;
+        }   
 
-        /* BOTÕES */
+        .container {
+            background-color: var(--pure-white); padding: 25px;
+            border-radius: 24px; box-shadow: var(--shadow-soft);
+            text-align: center; max-width: 450px; width: 100%;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; }
+        .brand-1234 { color: var(--neon-mint); }
+        
+        .instructions { font-size: 0.85rem; margin-bottom: 15px; color: #777; }
+
+        /* FORMULÁRIO */
+        .form-group { margin-bottom: 12px; text-align: left; }
+        .label { display: block; margin-bottom: 4px; font-weight: 700; color: var(--tech-purple); font-size: 0.75rem; text-transform: uppercase; }
+        
+        .fake-input {
+            width: 100%; height: 42px; background-color: var(--input-bg);
+            border-radius: 10px; border: 2px solid transparent;
+            display: flex; align-items: center; padding: 0 12px;
+            font-size: 1rem; font-weight: 600; color: var(--tech-purple);
+            cursor: pointer; transition: 0.2s;
+        }
+        .fake-input.active { border-color: var(--neon-mint); background-color: #fff; box-shadow: 0 0 10px rgba(0,210,132,0.1); }
+        .placeholder { color: #aaa; font-weight: 400; font-size: 0.85rem; }
+
         .btn-register {
-            width: 100%; padding: 15px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase;
-            border-radius: 12px; border: none; background-color: var(--neon-mint); color: var(--tech-purple);
-            cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: 0.2s;
+            width: 100%; padding: 14px; font-size: 1rem; font-weight: 800; 
+            text-transform: uppercase; border-radius: 12px; border: none; 
+            background-color: var(--neon-mint); color: var(--tech-purple); 
+            cursor: pointer; margin-top: 8px;
+            box-shadow: 0 4px 10px rgba(0, 210, 132, 0.2);
         }
-        .btn-register:active { transform: scale(0.98); }
 
-        .btn-back {
-            background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6);
-            padding: 10px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; margin-top: 5px;
-        }
-        .btn-back:hover { background-color: rgba(255,255,255,0.05); color: white; }
+        .back-text { margin-top: 15px; font-size: 0.8rem; color: #888; }
+        .link-btn { color: var(--tech-purple); font-weight: 800; cursor: pointer; border-bottom: 2px solid var(--neon-mint); }
 
-        /* MENSAGEM NA TELA */
-        .message-box {
-            display: none; 
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            text-align: center;
-            font-weight: 600;
-            animation: fadeIn 0.3s ease-in-out;
-            margin-bottom: 10px;
-            border-width: 2px;
+        /* TECLADO VIRTUAL */
+        .virtual-keyboard { 
+            position: fixed; bottom: -500px; left: 0; width: 100%; 
+            background-color: #E0E0E0; padding: 6px;
+            display: flex; flex-direction: column; gap: 4px; 
+            transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; 
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.1); border-radius: 20px 20px 0 0;
         }
-        .msg-error {
-            background-color: rgba(255, 71, 87, 0.2);
-            border: 2px solid var(--warning-red);
-            color: #ff8a93;
+        .virtual-keyboard.active { bottom: 0; }
+        .kb-row { display: flex; justify-content: center; gap: 4px; width: 100%; }
+        .kb-key { 
+            flex: 1; height: 38px; background-color: #fff; color: #111; border: none; 
+            border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; 
+            max-width: 48px; box-shadow: 0 1px 0px #caced1; 
         }
-        .msg-success {
-            background-color: rgba(105, 255, 194, 0.2);
-            border: 2px solid var(--neon-mint);
-            color: var(--neon-mint);
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .kb-key:active { background-color: var(--tech-purple); color: #fff; transform: translateY(2px); box-shadow: none; }
+        .kb-key-wide { max-width: none; flex: 2; font-size: 0.75rem; }
+        .kb-key-space { max-width: none; flex: 4; }
+        .kb-key-backspace { background-color: #ffdce0; color: #ff4757; }
+        .kb-key-search { background-color: var(--tech-purple) !important; color: var(--neon-mint) !important; }
 
     </style>
 </head>
 <body>
 
-    <div class="screen-wrapper">
-        <div class="form-container" id="formContainer">
-            <div class="logo-area">
-                <span class="material-icons">local_pharmacy</span> 1234Farma
+    <div class="screen-wrapper" id="wrapper">
+        <div class="container" id="mainContainer">
+            <div class="logo">
+                <span class="brand-1234">1234</span><span class="brand-farma">Farma</span>
             </div>
-            <div class="page-title">Crie sua conta para continuar</div>
-
-            <div id="msgBox" class="message-box"></div>
-
-            <div class="row-inputs">
-                <div class="input-group">
-                    <label class="input-label">Nome</label>
-                    <input type="text" id="nome" class="custom-input" placeholder="Seu nome">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Sobrenome</label>
-                    <input type="text" id="sobrenome" class="custom-input" placeholder="Sobrenome">
+            <p class="instructions">Crie sua conta e garanta o melhor preço.</p>
+            
+            <div class="form-group">
+                <label class="label">Nome Completo</label>
+                <div class="fake-input" id="inputNome" onclick="openKB('inputNome')">
+                    <span class="val"></span><span class="placeholder">Ex: João Silva</span>
                 </div>
             </div>
 
-            <div class="input-group">
-                <label class="input-label">CPF</label>
-                <input type="tel" id="cpf" class="custom-input" placeholder="000.000.000-00" maxlength="14">
+            <div class="form-group">
+                <label class="label">E-mail</label>
+                <div class="fake-input" id="inputEmail" onclick="openKB('inputEmail')">
+                    <span class="val"></span><span class="placeholder">seu@email.com</span>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label class="input-label">E-mail</label>
-                <input type="email" id="email" class="custom-input" placeholder="exemplo@email.com">
+            <div class="form-group">
+                <label class="label">CPF</label>
+                <div class="fake-input" id="inputCPF" onclick="openKB('inputCPF')">
+                    <span class="val"></span><span class="placeholder">000.000.000-00</span>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label class="input-label">Senha</label>
-                <input type="password" id="senha" class="custom-input" placeholder="******">
+            <div class="form-group">
+                <label class="label">Senha (Mínimo 6 dígitos)</label>
+                <div class="fake-input" id="inputPass" onclick="openKB('inputPass')">
+                    <span class="val"></span><span class="placeholder">Escolha sua senha</span>
+                </div>
             </div>
 
-            <button id="btnRegister" class="btn-register">
-                FINALIZAR CADASTRO <span class="material-icons">check_circle</span>
-            </button>
+            <button class="btn-register" onclick="salvarCadastro()">FINALIZAR CADASTRO</button>
 
-            <button onclick="window.location.href='login.html'" class="btn-back">
-                Voltar para Login
-            </button>
+            <div class="back-text">
+                Já tem conta? <span class="link-btn" onclick="window.location.href='login.html'">Fazer Login</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="virtualKeyboard" class="virtual-keyboard">
+        <div class="kb-row">
+            <button class="kb-key">1</button><button class="kb-key">2</button><button class="kb-key">3</button><button class="kb-key">4</button><button class="kb-key">5</button>
+            <button class="kb-key">6</button><button class="kb-key">7</button><button class="kb-key">8</button><button class="kb-key">9</button><button class="kb-key">0</button>
+        </div>
+        <div class="kb-row">
+            <button class="kb-key">Q</button><button class="kb-key">W</button><button class="kb-key">E</button><button class="kb-key">R</button><button class="kb-key">T</button>
+            <button class="kb-key">Y</button><button class="kb-key">U</button><button class="kb-key">I</button><button class="kb-key">O</button><button class="kb-key">P</button>
+        </div>
+        <div class="kb-row">
+            <button class="kb-key">A</button><button class="kb-key">S</button><button class="kb-key">D</button><button class="kb-key">F</button><button class="kb-key">G</button>
+            <button class="kb-key">H</button><button class="kb-key">J</button><button class="kb-key">K</button><button class="kb-key">L</button>
+            <button class="kb-key">@</button>
+        </div>
+        <div class="kb-row">
+            <button class="kb-key">Z</button><button class="kb-key">X</button><button class="kb-key">C</button><button class="kb-key">V</button><button class="kb-key">B</button>
+            <button class="kb-key">N</button><button class="kb-key">M</button>
+            <button class="kb-key">.</button><button class="kb-key">_</button> <button class="kb-key kb-key-backspace"><span class="material-icons">backspace</span></button>
+        </div>
+        <div class="kb-row">
+            <button class="kb-key kb-key-wide" onclick="closeKB()">FECHAR</button>
+            <button class="kb-key kb-key-space"> </button>
+            <button class="kb-key kb-key-wide kb-key-search" onclick="closeKB()">PRONTO</button>
         </div>
     </div>
 
     <script>
-        const btnRegister = document.getElementById('btnRegister');
-        const msgBox = document.getElementById('msgBox');
-        
-        const inputs = {
-            nome: document.getElementById('nome'),
-            sobrenome: document.getElementById('sobrenome'),
-            cpf: document.getElementById('cpf'),
-            email: document.getElementById('email'),
-            senha: document.getElementById('senha')
+        let currentTargetId = null;
+        const keyboard = document.getElementById('virtualKeyboard');
+        const wrapper = document.getElementById('wrapper');
+
+        const formData = {
+            inputNome: "",
+            inputEmail: "",
+            inputCPF: "",
+            inputPass: ""
         };
 
-        // Máscara de CPF
-        inputs.cpf.addEventListener('input', function (e) {
-            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
-            e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + (x[3] ? '.' + x[3] : '') + (x[4] ? '-' + x[4] : '');
-        });
+        function openKB(id) {
+            currentTargetId = id;
+            document.querySelectorAll('.fake-input').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            
+            keyboard.classList.add('active');
 
-        // Limpa mensagem e bordas ao digitar
-        Object.values(inputs).forEach(input => {
-            input.addEventListener('input', () => {
-                // Remove apenas o estilo de erro visual, mantém a msgBox visível se for sucesso
-                if(!btnRegister.classList.contains('cadastrado')) {
-                    msgBox.style.display = 'none';
+            if(id === 'inputPass') wrapper.style.transform = "translateY(-140px)";
+            else if(id === 'inputCPF') wrapper.style.transform = "translateY(-100px)";
+            else if(id === 'inputEmail') wrapper.style.transform = "translateY(-40px)";
+            else wrapper.style.transform = "translateY(-10px)";
+        }
+
+        function closeKB() {
+            keyboard.classList.remove('active');
+            wrapper.style.transform = "translateY(0)";
+            document.querySelectorAll('.fake-input').forEach(el => el.classList.remove('active'));
+        }
+
+        document.querySelectorAll('.kb-key').forEach(key => {
+            key.addEventListener('click', (e) => {
+                if(!currentTargetId) return;
+                
+                const valSpan = document.getElementById(currentTargetId).querySelector('.val');
+                const placeholder = document.getElementById(currentTargetId).querySelector('.placeholder');
+                
+                let char = key.textContent.trim();
+
+                if(key.classList.contains('kb-key-backspace') || key.innerHTML.includes('backspace')) {
+                    formData[currentTargetId] = formData[currentTargetId].slice(0, -1);
+                } 
+                else if(key.classList.contains('kb-key-wide')) {
+                    return; 
                 }
-                input.style.borderColor = 'rgba(105, 255, 194, 0.4)'; 
+                else if(key.classList.contains('kb-key-space')) {
+                    formData[currentTargetId] += " ";
+                } 
+                else {
+                    // Restrição apenas para CPF (11 dígitos)
+                    if(currentTargetId === 'inputCPF' && formData[currentTargetId].length >= 11) return;
+                    
+                    // Trava de 6 dígitos da senha REMOVIDA
+                    formData[currentTargetId] += char;
+                }
+
+                let displayVal = formData[currentTargetId];
+                
+                if(currentTargetId === 'inputCPF') {
+                    let v = displayVal.replace(/\D/g, "");
+                    if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+                    else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+                    else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+                    displayVal = v;
+                } else if(currentTargetId === 'inputPass') {
+                    displayVal = "•".repeat(displayVal.length);
+                }
+
+                valSpan.textContent = displayVal;
+                placeholder.style.display = displayVal.length > 0 ? "none" : "block";
             });
         });
 
-        function mostrarMensagem(texto, tipo) {
-            msgBox.textContent = texto;
-            msgBox.className = 'message-box';
-            msgBox.classList.add(tipo === 'erro' ? 'msg-error' : 'msg-success');
-            msgBox.style.display = 'block';
-            
-            // Força rolagem até a mensagem
-            setTimeout(() => {
-                msgBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 10);
+        function salvarCadastro() {
+            if(formData.inputNome.length < 3 || formData.inputCPF.length < 11 || !formData.inputEmail.includes('@') || formData.inputPass.length < 6) {
+                alert("Por favor, preencha todos os campos corretamente (Senha mínima de 6 dígitos).");
+                return;
+            }
+            sessionStorage.setItem('usuarioFarmaFacil', formData.inputNome);
+            window.location.href = 'loja.html';
         }
 
-        // Ação de Cadastrar
-        btnRegister.addEventListener('click', function() {
-            
-            // Verifica se já está cadastrado (comportamento de "Ir para Login")
-            if (this.innerText.includes('IR PARA LOGIN')) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            // 1. Validação
-            if(inputs.nome.value.trim() === '') {
-                mostrarMensagem("Por favor, preencha o Nome.", "erro");
-                inputs.nome.focus();
-                return;
-            }
-
-            if(inputs.sobrenome.value.trim() === '') {
-                mostrarMensagem("Por favor, preencha o Sobrenome.", "erro");
-                inputs.sobrenome.focus();
-                return;
-            }
-
-            if(inputs.cpf.value.length < 14) {
-                mostrarMensagem("CPF inválido ou incompleto.", "erro");
-                inputs.cpf.focus();
-                return;
-            }
-
-            if(inputs.email.value.trim() === '') {
-                mostrarMensagem("Por favor, preencha o E-mail.", "erro");
-                inputs.email.focus();
-                return;
-            }
-
-            if(inputs.senha.value.trim() === '') {
-                mostrarMensagem("Crie uma senha para continuar.", "erro");
-                inputs.senha.focus();
-                return;
-            }
-
-            // 2. SUCESSO
-            const nomeCompleto = `${inputs.nome.value} ${inputs.sobrenome.value}`;
-            sessionStorage.setItem('usuarioCadastroTemp', nomeCompleto); 
-
-            // Mensagem solicitada
-            mostrarMensagem("Cadastro Sucesso! Volte ao login e entre com seu CPF.", "sucesso");
-            
-            // Altera o botão para facilitar a navegação
-            btnRegister.innerHTML = 'IR PARA LOGIN <span class="material-icons">login</span>';
-            btnRegister.classList.add('cadastrado'); // Marca como finalizado
-        });
+        let idleTime = 0;
+        setInterval(() => {
+            idleTime++;
+            if (idleTime >= 40) window.location.href = 'propaganda.html';
+        }, 1000);
+        document.onclick = () => idleTime = 0;
     </script>
-
 </body>
 </html>

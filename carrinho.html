@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FarmaFácil - Carrinho</title>
+    <title>1234Farma - Carrinho</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-       :root { --tech-purple: #2E1A47; --neon-mint: #69FFC2; --pure-white: #FFFFFF; --warning-red: #ff4757; --alert-orange: #ff9800; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+        /* === MANTIDO EXATAMENTE IGUAL === */
+        :root { 
+            --tech-purple: #2E1A47;
+            --neon-mint: #00D284;
+            --page-bg: #FFFFFF;       
+            --element-bg: #E9ECEF;    
+            --white-pure: #FFFFFF;    
+            --card-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            --warning-red: #ff4757; 
+            --alert-orange: #ff9800; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; user-select: none;}
         
-        /* Fonte base reduzida para caber no tablet */
         body { 
-            background-color: var(--tech-purple); 
-            color: var(--pure-white); 
+            background-color: var(--page-bg); 
+            color: var(--tech-purple); 
             height: 100vh; 
             display: flex; 
             flex-direction: column; 
@@ -20,122 +30,140 @@
             font-size: 13px; 
         }
         
-        /* HEADER COMPACTO */
+        /* HEADER */
         header { 
-            background-color: rgba(46, 26, 71, 0.95); 
+            background-color: var(--page-bg); 
             padding: 10px 15px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-bottom: 1px solid var(--neon-mint); 
+            border-bottom: 1px solid var(--element-bg); 
             flex-shrink: 0; 
-            gap: 10px; 
+            height: 60px;
         }
-        .user-name-display { font-size: 0.9rem; font-weight: 700; color: var(--neon-mint); }
-        
-        .btn-exit-header { background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: 600; font-size: 0.8rem; }
-        .btn-exit-header:hover { color: var(--warning-red); }
 
         .btn-back-shop { 
-            text-decoration: none; color: var(--neon-mint); display: flex; align-items: center; gap: 5px; font-weight: 700; 
-            border: 1px solid var(--neon-mint); padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; 
+            text-decoration: none; 
+            color: var(--tech-purple); 
+            display: flex; align-items: center; gap: 5px; font-weight: 700; 
+            background-color: var(--element-bg);
+            padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; 
+            transition: 0.2s;
         }
+        .btn-back-shop:active { background-color: #dbe0e4; }
+
+        .brand-logo-text { font-size: 1.1rem; font-weight: 900; }
+        .brand-1234 { color: var(--neon-mint); }
+        .brand-farma { color: var(--tech-purple); }
+        
+        .user-info-center { text-align: center; line-height: 1.2; }
+        .user-label { font-size: 0.7rem; color: #888; }
 
         /* CONTEÚDO PRINCIPAL */
         main { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; width: 100%; }
         
-        .cart-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .page-title { font-size: 1.3rem; display: flex; align-items: center; gap: 8px; color: var(--neon-mint); margin: 0; }
+        .cart-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .page-title { font-size: 1.4rem; display: flex; align-items: center; gap: 8px; color: var(--tech-purple); margin: 0; font-weight: 800; }
         
         .btn-clear-cart { 
-            background: none; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); 
-            padding: 5px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 0.75rem; transition: all 0.3s;
+            background: none; border: 1px solid #ddd; color: #888; 
+            padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 0.75rem; transition: all 0.3s; font-weight: 600;
         }
-        .btn-clear-cart:hover { border-color: var(--warning-red); color: var(--warning-red); background-color: rgba(255, 71, 87, 0.1); }
+        .btn-clear-cart:hover { border-color: var(--warning-red); color: var(--warning-red); background-color: #fff5f5; }
 
-        .cart-list-container { display: flex; flex-direction: column; gap: 10px; }
+        .cart-list-container { display: flex; flex-direction: column; gap: 12px; }
         
-        /* CARD DE ITEM REDUZIDO */
+        /* CARD DE ITEM */
         .cart-item { 
-            background-color: rgba(255,255,255,0.05); border-radius: 10px; padding: 10px; 
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(105, 255, 194, 0.2); 
+            background-color: var(--element-bg); 
+            border-radius: 12px; padding: 10px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
         }
         
-        .cart-item-left { display: flex; align-items: center; gap: 10px; }
+        .cart-item-left { display: flex; align-items: center; gap: 12px; }
+        
         .cart-item-img {
-            width: 50px; height: 50px; /* Imagem menor */
-            object-fit: cover; border-radius: 6px; background-color: white;
+            width: 55px; height: 55px; 
+            object-fit: contain; border-radius: 8px; 
+            background-color: var(--white-pure);
+            padding: 5px;
+            mix-blend-mode: multiply;
         }
 
-        .item-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 2px; line-height: 1.1;}
-        .item-price-unit { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
-        .item-price-total { color: var(--neon-mint); font-weight: 700; font-size: 0.9rem; margin-top: 2px;}
+        .item-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; line-height: 1.1; color: var(--tech-purple); }
+        .item-price-unit { font-size: 0.75rem; color: #777; }
+        .item-price-total { color: var(--tech-purple); font-weight: 800; font-size: 0.95rem; margin-top: 2px;}
 
-        /* CONTROLES MENORES */
+        /* CONTROLES DE QUANTIDADE */
         .quantity-controls {
             display: flex; align-items: center; gap: 8px;
-            background-color: rgba(0,0,0,0.2); padding: 4px; border-radius: 20px;
+            background-color: var(--white-pure); 
+            padding: 4px 6px; border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .btn-qty {
-            width: 24px; height: 24px; border-radius: 50%; border: none; cursor: pointer; 
+            width: 26px; height: 26px; border-radius: 50%; border: none; cursor: pointer; 
             display: flex; justify-content: center; align-items: center; 
+            transition: 0.2s;
         }
-        .btn-decrease { background-color: transparent; border: 1px solid var(--warning-red); color: var(--warning-red); }
-        .qty-display { font-weight: 700; font-size: 0.9rem; min-width: 20px; text-align: center; }
-        .btn-increase { background-color: var(--neon-mint); color: var(--tech-purple); }
+        .btn-decrease { background-color: #fff0f0; color: var(--warning-red); }
+        .btn-decrease:active { background-color: var(--warning-red); color: white; }
+        
+        .qty-display { font-weight: 700; font-size: 0.95rem; min-width: 20px; text-align: center; color: var(--tech-purple); }
+        
+        .btn-increase { background-color: var(--neon-mint); color: var(--white-pure); }
+        .btn-increase:active { background-color: var(--tech-purple); color: var(--neon-mint); }
 
-        .empty-cart-message { text-align: center; padding: 30px; color: rgba(255,255,255,0.5); font-size: 1rem; }
+        .empty-cart-message { text-align: center; padding: 40px; color: #999; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px;}
 
-        /* FOOTER COMPACTO */
+        /* FOOTER */
         footer { 
-            background-color: rgba(46, 26, 71, 0.98); padding: 10px 15px; 
-            border-top: 1px solid rgba(105, 255, 194, 0.3); flex-shrink: 0; 
+            background-color: var(--element-bg); padding: 15px; 
+            border-top: none; flex-shrink: 0; 
         }
-        .cart-total-summary { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 1rem; }
-        .total-value { color: var(--neon-mint); font-size: 1.4rem; font-weight: 800; }
+        .cart-total-summary { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 1.1rem; }
+        .total-label { color: var(--tech-purple); font-weight: 600; }
+        .total-value { color: var(--tech-purple); font-size: 1.5rem; font-weight: 900; }
+        
         .btn-finish-order { 
             width: 100%; background-color: var(--neon-mint); color: var(--tech-purple); 
-            padding: 10px; border-radius: 10px; font-weight: 800; border: none; 
-            font-size: 1rem; cursor: pointer; display: flex; justify-content: center; alignItems: center; gap: 8px;
+            padding: 14px; border-radius: 12px; font-weight: 800; border: none; 
+            font-size: 1rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 210, 132, 0.2);
+            transition: transform 0.1s;
         }
+        .btn-finish-order:active { transform: scale(0.98); }
 
-        /* --- ESTILOS DOS MODAIS --- */
+        /* MODAIS */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            backdrop-filter: blur(3px);
+            background-color: rgba(46, 26, 71, 0.6);
+            backdrop-filter: blur(4px);
             z-index: 1000;
-            display: none; /* Escondido por padrão */
+            display: none; 
             justify-content: center; align-items: center;
         }
-        
         .modal-content {
-            background-color: #2a1b3d;
-            border: 1px solid var(--neon-mint);
-            border-radius: 15px;
-            padding: 25px;
-            width: 85%;
-            max-width: 350px;
+            background-color: var(--white-pure);
+            border: 2px solid var(--tech-purple);
+            border-radius: 20px;
+            padding: 30px;
+            width: 85%; max-width: 350px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
             animation: modalPop 0.3s ease-out;
         }
         @keyframes modalPop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
         .modal-icon { font-size: 3.5rem; margin-bottom: 15px; }
-        .modal-title { font-size: 1.3rem; font-weight: 800; color: white; margin-bottom: 10px; }
-        .modal-text { font-size: 1rem; color: rgba(255,255,255,0.7); margin-bottom: 25px; line-height: 1.4; }
-        
+        .modal-title { font-size: 1.3rem; font-weight: 800; color: var(--tech-purple); margin-bottom: 10px; }
+        .modal-text { font-size: 1rem; color: #666; margin-bottom: 25px; line-height: 1.4; }
         .modal-actions { display: flex; gap: 15px; }
         .modal-btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 1rem;}
-        .btn-modal-cancel { background-color: rgba(255,255,255,0.1); color: white; }
-        
-        /* ESTILOS ESPECÍFICOS PARA CADA TIPO DE MODAL */
-        /* Modal de Perigo (Esvaziar) */
+        .btn-modal-cancel { background-color: var(--element-bg); color: var(--tech-purple); }
         .modal-danger .modal-icon { color: var(--warning-red); }
         .modal-danger .btn-modal-confirm { background-color: var(--warning-red); color: white; }
-        
-        /* Modal de Aviso (Quantidade) */
         .modal-warning .modal-icon { color: var(--alert-orange); }
         .modal-warning .btn-modal-confirm { background-color: var(--alert-orange); color: white; }
 
@@ -145,36 +173,37 @@
 
     <header>
         <a href="loja.html" class="btn-back-shop">
-            <span class="material-icons" style="font-size: 1rem;">arrow_back</span> Loja
+            <span class="material-icons" style="font-size: 1.1rem;">arrow_back</span>
         </a>
-        <div style="text-align: center;">
-             <span class="welcome-text" style="font-size: 0.7rem; opacity: 0.7;">Carrinho de</span><br>
-             <span id="userNameDisplay" class="user-name-display">...</span>
+        
+        <div class="user-info-center">
+             <div class="user-label">Carrinho de</div>
+             <div id="userNameDisplay" class="user-name-display">...</div>
         </div>
-        <button id="btnExit" class="btn-exit-header">
-            <span class="material-icons" style="font-size: 1.1rem;">logout</span>
-        </button>
+
+        <div class="brand-logo-text">
+            <span class="brand-1234">1234</span><span class="brand-farma">Farma</span>
+        </div>
     </header>
 
     <main>
         <div class="cart-header-row">
-            <h1 class="page-title"><span class="material-icons" style="font-size: 1.5rem;">shopping_cart</span> Carrinho</h1>
+            <h1 class="page-title"><span class="material-icons" style="font-size: 1.6rem; color: var(--neon-mint);">shopping_cart</span> Seu Pedido</h1>
             <button id="btnClearCart" class="btn-clear-cart">
-                <span class="material-icons" style="font-size: 1rem;">delete_sweep</span> Limpar
+                <span class="material-icons" style="font-size: 1.1rem;">delete_outline</span> Esvaziar
             </button>
         </div>
         
-        <div id="cartListContainer" class="cart-list-container">
-            </div>
+        <div id="cartListContainer" class="cart-list-container"></div>
     </main>
 
     <footer>
         <div class="cart-total-summary">
-            <span>Total a pagar:</span>
+            <span class="total-label">Total a pagar:</span>
             <span id="totalValueDisplay" class="total-value">R$ 0,00</span>
         </div>
         <button class="btn-finish-order">
-            <span class="material-icons">credit_card</span> FINALIZAR PAGAMENTO
+            <span class="material-icons">payment</span> FINALIZAR PAGAMENTO
         </button>
     </footer>
 
@@ -208,79 +237,30 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Login Check
+            // Verifica Login
             const nomeSalvo = sessionStorage.getItem('usuarioFarmaFacil');
             if (!nomeSalvo) { window.location.href = 'login.html'; return; }
-            document.getElementById('userNameDisplay').textContent = nomeSalvo.split(' ')[0]; // Só primeiro nome
+            document.getElementById('userNameDisplay').textContent = nomeSalvo.split(' ')[0]; 
             
-            document.getElementById('btnExit').addEventListener('click', function() {
-                sessionStorage.removeItem('usuarioFarmaFacil'); window.location.href = 'login.html';
-            });
-
-            // LER O CARRINHO BRUTO
+            // LER O CARRINHO
             let carrinhoBruto = JSON.parse(sessionStorage.getItem('carrinhoFarmaFacil')) || [];
             
             const cartListContainer = document.getElementById('cartListContainer');
             const totalValueDisplay = document.getElementById('totalValueDisplay');
             const btnClearCart = document.getElementById('btnClearCart');
+            const btnFinish = document.querySelector('.btn-finish-order');
             
-            // Elementos dos Modais
+            // Modais
             const confirmModal = document.getElementById('confirmModal');
             const btnCancelClear = document.getElementById('btnCancelClear');
             const btnConfirmClear = document.getElementById('btnConfirmClear');
-
             const qtyWarningModal = document.getElementById('qtyWarningModal');
             const btnCancelQty = document.getElementById('btnCancelQty');
             const btnConfirmQty = document.getElementById('btnConfirmQty');
 
-            // Variável para guardar qual item está pendente de adição (regra > 3)
             let pendingItemId = null;
 
-            // --- LÓGICA DO MODAL LIMPAR ---
-            btnClearCart.addEventListener('click', function() {
-                if(carrinhoBruto.length > 0) confirmModal.style.display = 'flex';
-            });
-            btnCancelClear.addEventListener('click', () => confirmModal.style.display = 'none');
-            btnConfirmClear.addEventListener('click', () => {
-                carrinhoBruto = [];
-                salvarERenderizar();
-                confirmModal.style.display = 'none';
-            });
-
-            // --- LÓGICA DO MODAL DE QUANTIDADE ---
-            btnCancelQty.addEventListener('click', () => {
-                qtyWarningModal.style.display = 'none';
-                pendingItemId = null; // Cancela
-            });
-
-            btnConfirmQty.addEventListener('click', () => {
-                // Usuário confirmou, adiciona o item pendente
-                if(pendingItemId) {
-                    const itemToAdd = carrinhoBruto.find(item => item.id === pendingItemId);
-                    if(itemToAdd) {
-                        carrinhoBruto.push(itemToAdd);
-                        salvarERenderizar();
-                    }
-                }
-                qtyWarningModal.style.display = 'none';
-                pendingItemId = null;
-            });
-
-            // Finalizar Pagamento
-            const btnFinish = document.querySelector('.btn-finish-order');
-            btnFinish.addEventListener('click', function() {
-                if (carrinhoBruto.length === 0) {
-                    alert("Seu carrinho está vazio!");
-                    return;
-                }
-                window.location.href = 'metodopagamento.html';
-            });
-
-            function salvarERenderizar() {
-                sessionStorage.setItem('carrinhoFarmaFacil', JSON.stringify(carrinhoBruto));
-                renderizarCarrinho();
-            }
-
+            // --- LÓGICA DE AGRUPAMENTO E RENDERIZAÇÃO ---
             function agruparItens(arrayBruto) {
                 const agrupado = {};
                 arrayBruto.forEach(item => {
@@ -297,10 +277,13 @@
                 cartListContainer.innerHTML = ''; 
                 let totalGeral = 0;
 
-                // Visibilidade do botão limpar
                 if (carrinhoBruto.length === 0) {
                     btnClearCart.style.display = 'none'; 
-                    cartListContainer.innerHTML = '<div class="empty-cart-message"><span class="material-icons" style="font-size: 3rem; margin-bottom: 10px; display: block;">remove_shopping_cart</span>Vazio</div>';
+                    cartListContainer.innerHTML = `
+                        <div class="empty-cart-message">
+                            <span class="material-icons" style="font-size: 4rem; opacity: 0.3;">shopping_cart_checkout</span>
+                            <p>Seu carrinho está vazio.</p>
+                        </div>`;
                     totalValueDisplay.textContent = 'R$ 0,00';
                     return;
                 } else {
@@ -318,7 +301,7 @@
                     
                     itemElement.innerHTML = `
                         <div class="cart-item-left">
-                            <img src="${produto.imagem}" class="cart-item-img" alt="Foto">
+                            <img src="${produto.imagem}" class="cart-item-img" alt="Foto" onerror="this.src='https://placehold.co/55x55/eee/999?text=X'">
                             <div>
                                 <div class="item-name">${produto.nome}</div>
                                 <div class="item-price-unit">Unit: R$ ${produto.preco.toFixed(2).replace('.',',')}</div>
@@ -345,12 +328,19 @@
                 atribuirBotoes();
             }
 
+            function salvarERenderizar() {
+                sessionStorage.setItem('carrinhoFarmaFacil', JSON.stringify(carrinhoBruto));
+                renderizarCarrinho();
+            }
+
+            // --- LÓGICA DOS BOTÕES + e - ---
             function atribuirBotoes() {
-                // Diminuir
+                // Botão DIMINUIR
                 document.querySelectorAll('.btn-decrease').forEach(button => {
                     button.addEventListener('click', function() {
+                        // Importante: comparar como número ou string consistentemente
                         const id = this.getAttribute('data-id');
-                        const index = carrinhoBruto.findIndex(item => item.id === id);
+                        const index = carrinhoBruto.findIndex(item => item.id == id); // '==' permite comparar "1" com 1
                         if (index !== -1) {
                             carrinhoBruto.splice(index, 1);
                             salvarERenderizar();
@@ -358,21 +348,18 @@
                     });
                 });
 
-                // Aumentar (COM REGRA DE TRAVA)
+                // Botão AUMENTAR
                 document.querySelectorAll('.btn-increase').forEach(button => {
                     button.addEventListener('click', function() {
                         const id = this.getAttribute('data-id');
-                        
-                        // 1. Conta quantos já tem
-                        const qtdAtual = carrinhoBruto.filter(item => item.id === id).length;
+                        const qtdAtual = carrinhoBruto.filter(item => item.id == id).length;
 
-                        // 2. Verifica se passou de 3
+                        // Trava de segurança (ex: 3 unidades)
                         if (qtdAtual >= 3) {
-                            pendingItemId = id; // Guarda para usar no modal
-                            qtyWarningModal.style.display = 'flex'; // Abre o aviso
+                            pendingItemId = id; 
+                            qtyWarningModal.style.display = 'flex'; 
                         } else {
-                            // Se tem menos de 3, adiciona direto
-                            const itemExemplo = carrinhoBruto.find(item => item.id === id);
+                            const itemExemplo = carrinhoBruto.find(item => item.id == id);
                             if (itemExemplo) {
                                 carrinhoBruto.push(itemExemplo);
                                 salvarERenderizar();
@@ -382,6 +369,43 @@
                 });
             }
 
+            // --- MODAIS ---
+            btnClearCart.addEventListener('click', () => {
+                if(carrinhoBruto.length > 0) confirmModal.style.display = 'flex';
+            });
+            btnCancelClear.addEventListener('click', () => confirmModal.style.display = 'none');
+            btnConfirmClear.addEventListener('click', () => {
+                carrinhoBruto = [];
+                salvarERenderizar();
+                confirmModal.style.display = 'none';
+            });
+
+            btnCancelQty.addEventListener('click', () => {
+                qtyWarningModal.style.display = 'none';
+                pendingItemId = null;
+            });
+            btnConfirmQty.addEventListener('click', () => {
+                if(pendingItemId) {
+                    const itemToAdd = carrinhoBruto.find(item => item.id == pendingItemId);
+                    if(itemToAdd) {
+                        carrinhoBruto.push(itemToAdd);
+                        salvarERenderizar();
+                    }
+                }
+                qtyWarningModal.style.display = 'none';
+                pendingItemId = null;
+            });
+
+            // --- FINALIZAR ---
+            btnFinish.addEventListener('click', function() {
+                if (carrinhoBruto.length === 0) {
+                    alert("Seu carrinho está vazio!");
+                    return;
+                }
+                window.location.href = 'metodopagamento.html';
+            });
+
+            // Render Inicial
             renderizarCarrinho();
         });
     </script>

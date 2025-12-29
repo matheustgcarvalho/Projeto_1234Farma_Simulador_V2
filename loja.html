@@ -6,12 +6,23 @@
     <title>1234Farma - Loja</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        :root { --tech-purple: #2E1A47; --neon-mint: #69FFC2; --pure-white: #FFFFFF; --warning-red: #ff4757; --alert-orange: #ff9800; }
+        /* === PALETA DE CORES === */
+        :root { 
+            --tech-purple: #2E1A47;
+            --neon-mint: #00D284;
+            --page-bg: #FFFFFF;       
+            --element-bg: #E9ECEF;    
+            --white-pure: #FFFFFF;    
+            --card-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            --warning-red: #ff4757; 
+            --alert-orange: #ff9800; 
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; user-select: none; }
         
         body { 
-            background-color: var(--tech-purple); 
-            color: var(--pure-white); 
+            background-color: var(--page-bg);
+            color: var(--tech-purple);
             height: 100vh; 
             width: 100vw;
             display: flex; 
@@ -19,263 +30,305 @@
             overflow: hidden; 
             font-size: 12px;
         }
+
+        /* === ÁREA FIXA NO TOPO === */
+        .fixed-top-section {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: var(--page-bg); z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 185px; 
+        }
         
-        /* HEADER */
         header { 
-            background-color: rgba(46, 26, 71, 0.95); 
-            padding: 10px 15px; 
-            display: grid; 
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center; 
-            border-bottom: 1px solid rgba(105, 255, 194, 0.3); flex-shrink: 0; 
+            background-color: var(--page-bg); padding: 10px 15px 5px 15px; 
+            display: flex; justify-content: space-between;
+            align-items: center; flex-shrink: 0;
         }
 
-        .user-greeting { font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9); justify-self: start; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-        .brand-logo { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 5px; color: var(--pure-white); justify-self: center; }
-        .brand-logo .material-icons { font-size: 1.3rem; color: var(--neon-mint); }
-        .header-actions { display: flex; align-items: center; gap: 10px; justify-self: end; }
-
-        .btn-pharmacist { background-color: var(--neon-mint); color: var(--tech-purple); width: 32px; height: 32px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; cursor: pointer; }
-        .cart-icon-container { position: relative; text-decoration: none; color: white; display: flex; align-items: center;}
-        .material-icons.md-36 { font-size: 26px; }
-        .cart-badge { position: absolute; top: -5px; right: -8px; background-color: var(--warning-red); font-size: 0.6rem; padding: 2px 4px; border-radius: 10px; border: 1px solid var(--tech-purple); }
-
-        /* BUSCA */
-        .search-bar-wrapper { padding: 8px 10px; background-color: rgba(0,0,0,0.2); flex-shrink: 0; }
+        /* AJUSTE: SAUDAÇÃO CENTRALIZADA ABAIXO DO NOME */
+        .user-greeting { 
+            width: 100%;
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            color: #888; 
+            text-align: center;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
         
+        .brand-logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; text-align: center; flex-grow: 1; }
+        .brand-1234 { color: var(--neon-mint); }
+        .brand-farma { color: var(--tech-purple); }
+
+        .btn-pharmacist { 
+            background-color: var(--tech-purple); color: var(--neon-mint); 
+            width: 36px; height: 36px; border-radius: 50%; border: none; 
+            display: flex; justify-content: center; align-items: center; 
+            cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        }
+        
+        .cart-icon-container { position: relative; text-decoration: none; color: var(--tech-purple); display: flex; align-items: center;}
+        .material-icons.md-36 { font-size: 28px; }
+        .cart-badge { position: absolute; top: -5px; right: -8px; background-color: var(--warning-red); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 10px; border: 2px solid var(--page-bg); }
+
+        .search-bar-wrapper { padding: 5px 15px; background-color: transparent; height: 50px;}
         .search-bar-container { position: relative; }
-        
         .search-input { 
             width: 100%; padding: 8px 10px 8px 35px; border-radius: 20px; 
-            border: 1px solid rgba(105, 255, 194, 0.5); 
-            background-color: rgba(255,255,255,0.1); color: var(--pure-white); 
-            font-size: 0.9rem; outline: none; 
-            transition: all 0.3s;
-            height: 35px; display: flex; align-items: center;
+            border: 1px solid transparent; background-color: var(--element-bg); color: var(--tech-purple); 
+            font-size: 0.9rem; outline: none; transition: all 0.3s; height: 38px; display: flex; align-items: center;
         }
-        .search-input.active-input {
-            border-color: var(--neon-mint);
-            box-shadow: 0 0 10px rgba(105, 255, 194, 0.3);
-            background-color: rgba(255,255,255,0.15);
-        }
-
-        .search-icon-span { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; color: var(--neon-mint); }
-
-        /* CURSOR PISCANTE */
+        .search-input.active-input { border: 1px solid var(--neon-mint); background-color: var(--white-pure); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        #searchText { color: #777; font-weight: 500;}
+        .search-icon-span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--tech-purple); opacity: 0.5; }
+        .cursor-bar { display: inline-block; width: 2px; height: 14px; background-color: var(--tech-purple); animation: blink 1s infinite; margin-left: 2px; vertical-align: middle; display: none; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-        .cursor-bar {
-            display: inline-block; width: 2px; height: 14px;
-            background-color: var(--neon-mint);
-            animation: blink 1s infinite;
-            margin-left: 2px; vertical-align: middle;
-            display: none;
-        }
 
-        /* CATEGORIAS */
         .category-scroll-container {
             display: flex; gap: 8px; overflow-x: auto; 
-            padding: 10px; background-color: rgba(0,0,0,0.1);
-            white-space: nowrap; flex-shrink: 0; scrollbar-width: none; 
+            padding: 5px 15px 10px 15px; background-color: transparent;
+            white-space: nowrap; flex-shrink: 0; height: 45px; 
+            scrollbar-width: none; -ms-overflow-style: none;
         }
         .category-scroll-container::-webkit-scrollbar { display: none; }
         .category-chip {
+            flex-shrink: 0;
             padding: 6px 12px; border-radius: 20px; 
-            background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.8); font-size: 0.8rem; cursor: pointer;
-            display: flex; align-items: center; gap: 5px; transition: 0.2s;
+            background-color: var(--element-bg); border: 1px solid transparent;
+            color: var(--tech-purple); font-size: 0.75rem; cursor: pointer;
+            display: flex; align-items: center; gap: 5px; transition: 0.2s; font-weight: 600;
         }
-        .category-chip.active { background-color: rgba(105, 255, 194, 0.2); border-color: var(--neon-mint); color: var(--neon-mint); font-weight: bold; }
+        .category-chip.active { background-color: var(--tech-purple); color: var(--neon-mint); box-shadow: 0 4px 10px rgba(46, 26, 71, 0.2); }
 
-        /* MAIN & GRID */
-        main { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; width: 100%; position: relative; }
+        /* === MAIN & GRID === */
+        main { 
+            flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; 
+            width: 100%; position: relative; padding-top: 185px; scroll-behavior: smooth;
+        }
         
-        .product-area { 
-            flex-grow: 1; 
-            padding: 10px; 
-            overflow-y: auto; 
-            padding-bottom: 80px; /* Padrão: Espaço apenas para o footer */
-            transition: padding-bottom 0.3s; /* Animação suave */
+        .promo-carousel-wrapper {
+            padding: 10px 15px; width: 100%; height: 190px; position: relative;
+            margin-bottom: 15px; flex-shrink: 0; transition: all 0.3s ease;
         }
-        /* Classe ativada via JS quando o teclado abre */
-        .product-area.keyboard-open {
-            padding-bottom: 420px; /* Espaço grande para o teclado */
+        .promo-slide {
+            background-color: var(--tech-purple); border-radius: 20px; height: 160px;
+            position: absolute; top: 10px; left: 15px; right: 15px; overflow: hidden;
+            display: flex; align-items: center; padding: 20px; box-shadow: var(--card-shadow);
+            opacity: 0; transition: opacity 0.8s ease-in-out; pointer-events: none; z-index: 1;
         }
+        .promo-slide.active { opacity: 1; pointer-events: auto; z-index: 2; }
+        
+        .promo-slide.slide-1 { background: linear-gradient(135deg, var(--tech-purple) 0%, #3d2a58 100%); }
+        .promo-slide.slide-2 { background: linear-gradient(135deg, #1a0f2e) 0%, var(--tech-purple) 100%; }
+        .promo-slide.slide-3 { background: linear-gradient(135deg, var(--tech-purple) 0%, #150b24 100%); }
+        .promo-slide.slide-4 { background: linear-gradient(135deg, #000000) 0%, #2E1A47 100%; }
 
-        .section-title { font-size: 1rem; margin-bottom: 10px; color: var(--neon-mint); font-weight: bold; padding-left: 5px; border-left: 3px solid var(--neon-mint); }
+        .promo-shape {
+            position: absolute; top: 0; right: 0; width: 45%; height: 100%;
+            background-color: var(--neon-mint); border-top-left-radius: 90px; border-bottom-left-radius: 40px; z-index: 1; opacity: 0.9;
+        }
+        .promo-content { position: relative; z-index: 2; width: 60%; color: var(--white-pure); }
+        .promo-text { font-size: 1.1rem; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+        .promo-highlight { color: var(--neon-mint); }
+        .promo-btn-visual { display: inline-block; padding: 5px 10px; background-color: rgba(255,255,255,0.2); border-radius: 15px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
+        .promo-image { position: absolute; bottom: 0; right: 5px; height: 95%; width: auto; z-index: 3; object-fit: contain; }
+        .promo-pagination { position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: center; gap: 6px; }
+        .promo-dot { width: 6px; height: 6px; border-radius: 50%; background: #ccc; transition: 0.3s; }
+        .promo-dot.active { background: var(--tech-purple); width: 16px; border-radius: 4px; }
+
+        .product-area { flex-grow: 1; padding: 0 15px 15px 15px; padding-bottom: 80px; }
+        .section-title { font-size: 1rem; margin-bottom: 10px; color: var(--tech-purple); font-weight: 800; padding-left: 5px; border-left: 3px solid var(--neon-mint); }
+        .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-bottom: 20px; }
         
-        .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-bottom: 20px; }
-        .product-card { background-color: rgba(255,255,255,0.05); border-radius: 10px; padding: 8px; display: flex; flex-direction: column; position: relative; min-height: 160px; border: 1px solid rgba(255,255,255,0.05); }
-        .reg-tag { font-size: 0.5rem; padding: 2px 4px; border-radius: 4px; position: absolute; top: 6px; right: 6px; text-transform: uppercase; font-weight: bold;}
-        .tag-otc { background-color: var(--neon-mint); color: var(--tech-purple); }
+        .product-card { 
+            background-color: var(--element-bg); border-radius: 16px; padding: 5px; 
+            display: flex; flex-direction: column; position: relative; 
+            min-height: 160px; border: none; box-shadow: var(--card-shadow); 
+            cursor: pointer; transition: transform 0.1s;
+        }
+        .product-card:active { transform: scale(0.98); }
+
+        .reg-tag { font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; position: absolute; top: 8px; right: 8px; z-index: 10; text-transform: uppercase; font-weight: bold; }
+        .tag-otc { background-color: rgba(0, 210, 132, 0.2); color: var(--tech-purple); }
         
-        .product-img-container { width: 100%; height: 60px; background-color: white; border-radius: 8px; margin-top: 15px; margin-bottom: 5px; display: flex; justify-content: center; align-items: center; }
-        .product-img { max-width: 90%; max-height: 90%; object-fit: contain; }
-        .product-title { font-size: 0.75rem; font-weight: 700; margin-bottom: 2px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .product-subtitle { font-size: 0.6rem; color: rgba(255,255,255,0.6); margin-bottom: 5px; flex-grow: 1; line-height: 1; }
-        .product-footer { display: flex; flex-direction: column; gap: 5px; margin-top: auto; }
+        .product-img-container { width: 100%; height: 105px; background-color: var(--white-pure); border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; pointer-events: none; }
+        .product-img { max-width: 98%; max-height: 98%; object-fit: contain; mix-blend-mode: multiply; }
+
+        .product-title { font-size: 0.75rem; font-weight: 700; margin-bottom: 2px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tech-purple); pointer-events: none; }
+        .product-subtitle { font-size: 0.6rem; color: #888; margin-bottom: 5px; flex-grow: 1; line-height: 1; pointer-events: none; }
+        
         .footer-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .product-price { font-size: 0.85rem; font-weight: 700; color: var(--neon-mint); }
+        .product-price { font-size: 0.9rem; font-weight: 800; color: var(--tech-purple); }
         
-        .btn-add { width: 24px; height: 24px; border-radius: 50%; font-size: 1rem; display: flex; justify-content: center; align-items: center; border: 1px solid var(--neon-mint); background: transparent; color: var(--neon-mint); cursor: pointer; }
-        .btn-add:active { background: var(--neon-mint); color: var(--tech-purple); }
+        .btn-add { width: 28px; height: 28px; border-radius: 50%; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; border: none; background: var(--neon-mint); color: var(--white-pure); cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 20; }
+        /* CLASSE PARA ANIMAÇÃO DO VERIFICADO ROXO */
+        .btn-add.added { background-color: var(--tech-purple) !important; color: var(--neon-mint) !important; }
 
         /* FOOTER */
-        footer { background-color: rgba(46, 26, 71, 0.98); padding: 8px 15px; border-top: 1px solid rgba(105, 255, 194, 0.3); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; z-index: 50; }
-        .footer-left-group { display: flex; align-items: center; gap: 15px; } 
-        .btn-footer-exit { background: none; border: none; color: var(--warning-red); cursor: pointer; display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem; padding: 5px; border-radius: 8px; transition: 0.2s; opacity: 0.8; }
-        .btn-footer-exit:hover { opacity: 1; }
-        .btn-footer-exit .material-icons { font-size: 1.1rem; }
-        .cart-summary-text { font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 5px; color: var(--pure-white); border-left: 1px solid rgba(255,255,255,0.2); padding-left: 15px; }
-        .btn-checkout { background-color: var(--pure-white); color: var(--tech-purple); padding: 6px 15px; border-radius: 15px; font-weight: 800; border: none; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 5px; text-decoration: none;}
+        footer { background-color: var(--element-bg); padding: 10px 15px; border-top: none; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; z-index: 50; }
+        .btn-footer-exit { background: var(--white-pure); border: none; color: var(--warning-red); cursor: pointer; display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.7rem; padding: 7px 12px; border-radius: 8px; transition: 0.2s; opacity: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .btn-checkout { background-color: var(--neon-mint); color: var(--white-pure); padding: 10px 20px; border-radius: 20px; font-weight: 800; border: none; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 5px; text-decoration: none; box-shadow: 0 3px 10px rgba(0, 210, 132, 0.2);}
 
-        /* TECLADO VIRTUAL */
-        .virtual-keyboard {
-            position: fixed; bottom: -400px; left: 0; width: 100%;
-            background-color: #231438; border-top: 2px solid var(--neon-mint);
-            padding: 8px; display: flex; flex-direction: column; gap: 5px;
-            transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 2000; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
-        }
+        /* TECLADO */
+        .virtual-keyboard { position: fixed; bottom: -400px; left: 0; width: 100%; background-color: #E0E0E0; padding: 5px; display: flex; flex-direction: column; gap: 3px; transition: bottom 0.3s; z-index: 2000; border-radius: 20px 20px 0 0; }
         .virtual-keyboard.active { bottom: 0; }
-
         .kb-row { display: flex; justify-content: center; gap: 3px; width: 100%; }
-        .kb-key {
-            flex: 1; height: 42px;
-            background-color: rgba(255,255,255,0.1); color: white;
-            border: 1px solid rgba(255,255,255,0.2); border-radius: 5px;
-            font-size: 1rem; font-weight: bold;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            max-width: 45px;
-        }
-        .kb-key:active { background-color: var(--neon-mint); color: var(--tech-purple); transform: scale(0.95); }
-        .kb-key-wide { max-width: none; flex: 2; font-size: 0.85rem; text-transform: uppercase; }
+        .kb-key { flex: 1; height: 34px; background-color: var(--white-pure); color: var(--tech-purple); border: none; border-radius: 6px; font-size: 0.9rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; max-width: 48px; box-shadow: 0 2px 0px #caced1; }
+        .kb-key:active { background-color: var(--tech-purple); color: var(--white-pure); transform: scale(0.95); box-shadow: none;}
+        .kb-key-wide { max-width: none; flex: 2; font-size: 0.75rem; text-transform: uppercase; }
         .kb-key-space { max-width: none; flex: 4; }
-        .kb-key-backspace { background-color: rgba(255, 71, 87, 0.3); border-color: var(--warning-red); }
-        .kb-key-close { background-color: rgba(105, 255, 194, 0.3); border-color: var(--neon-mint); color: var(--neon-mint); }
+        .kb-key-backspace { background-color: #ffdce0; color: var(--warning-red); box-shadow: 0 2px 0px #ffb3ba; }
+        .kb-key-close { background-color: #d4edda; color: #155724; box-shadow: 0 2px 0px #c3e6cb;}
+        .kb-key-search { background-color: var(--tech-purple) !important; color: var(--neon-mint) !important; border: none; box-shadow: 0 2px 0px #1a0f29 !important;}
 
-        /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(3px); z-index: 3000; display: none; justify-content: center; align-items: center; }
-        .modal-content { background-color: #2a1b3d; border: 1px solid var(--neon-mint); border-radius: 15px; padding: 25px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); animation: modalPop 0.3s ease-out; }
+        /* MODAIS GERAIS */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(46, 26, 71, 0.5); backdrop-filter: blur(4px); z-index: 3000; display: none; justify-content: center; align-items: center; }
+        .modal-content { background-color: var(--white-pure); border-radius: 20px; padding: 25px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.15); animation: modalPop 0.3s ease-out; position: relative;}
         @keyframes modalPop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .modal-icon { font-size: 3.5rem; color: var(--alert-orange); margin-bottom: 15px; }
-        .modal-title { font-size: 1.3rem; font-weight: 800; color: white; margin-bottom: 10px; }
-        .modal-text { font-size: 1rem; color: rgba(255,255,255,0.7); margin-bottom: 25px; line-height: 1.4; }
-        .modal-actions { display: flex; gap: 15px; }
-        .modal-btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 1rem;}
-        .btn-modal-cancel { background-color: rgba(255,255,255,0.1); color: white; }
-        .btn-modal-confirm { background-color: var(--alert-orange); color: white; }
+        
+        /* DETALHES DO PRODUTO */
+        .product-modal-container { display: flex; flex-direction: column; align-items: center; text-align: left; margin-top: 10px; }
+        .modal-img-large { width: 120px; height: 120px; object-fit: contain; margin-bottom: 10px; mix-blend-mode: multiply; }
+        .modal-prod-title { font-size: 1.3rem; font-weight: 800; color: var(--tech-purple); margin-bottom: 2px; width: 100%; text-align: center;}
+        .modal-prod-subtitle { font-size: 0.8rem; color: #888; margin-bottom: 10px; width: 100%; text-align: center;}
+        .details-info { display: flex; gap: 10px; justify-content: center; width: 100%; margin-bottom: 15px; font-size: 0.85rem; color: #555; }
+        .info-pill { background: #f0f0f5; padding: 4px 10px; border-radius: 15px; display: flex; align-items: center; gap: 5px; }
+        .price-comparison-box { background-color: #f8f9fa; border-radius: 12px; padding: 12px; width: 100%; margin-bottom: 15px; border: 1px solid #eee; }
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .old-price { text-decoration: line-through; color: #999; font-size: 0.9rem; }
+        .current-price { font-size: 1.3rem; font-weight: 900; color: var(--tech-purple); }
+        .economy-badge { background-color: rgba(0, 210, 132, 0.15); color: #009e60; font-weight: 800; font-size: 0.85rem; padding: 4px 10px; border-radius: 8px; display: block; text-align: center; margin-top: 8px; }
+        .btn-modal-add { background-color: var(--neon-mint); color: var(--white-pure); width: 100%; padding: 12px; border-radius: 12px; font-size: 1rem; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(0, 210, 132, 0.3); }
+        
+        .btn-back-detail { position: absolute; top: 15px; left: 15px; background: #f4f6f9; border: none; border-radius: 50%; width: 32px; height: 32px; color: var(--tech-purple); display: flex; justify-content: center; align-items: center; cursor: pointer; }
 
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="user-greeting">Olá, <span id="userNameDisplay">Visitante</span></div>
-        <div class="brand-logo"><span class="material-icons">local_pharmacy</span> 1234Farma</div>
-        <div class="header-actions">
+    <div class="fixed-top-section">
+        <header>
             <button class="btn-pharmacist" onclick="window.location.href='ligacaofarmaceutico.html'" title="Farmacêutico">
                 <span class="material-icons">support_agent</span>
             </button>
+            
+            <div class="brand-logo">
+                <span class="brand-1234">1234</span><span class="brand-farma">Farma</span>
+            </div>
+            
             <a href="carrinho.html" class="cart-icon-container">
                 <span class="material-icons md-36">shopping_cart</span>
                 <span id="cartBadge" class="cart-badge">0</span>
             </a>
-        </div>
-    </header>
-    
-    <div class="search-bar-wrapper">
-        <div class="search-bar-container">
-            <span class="material-icons search-icon-span">search</span>
-            <div class="search-input" id="searchTrigger">
-                <span id="searchText">Toque para pesquisar...</span><span id="cursorBar" class="cursor-bar"></span>
+        </header>
+
+        <div class="user-greeting">Olá, <span id="userNameDisplay">Visitante</span></div>
+        
+        <div class="search-bar-wrapper">
+            <div class="search-bar-container">
+                <span class="material-icons search-icon-span">search</span>
+                <div class="search-input" id="searchTrigger">
+                    <span id="searchText">Toque para pesquisar...</span><span id="cursorBar" class="cursor-bar"></span>
+                </div>
             </div>
         </div>
+
+        <nav class="category-scroll-container">
+            <div class="category-chip active" data-filter="all">🔥 Todos</div>
+            <div class="category-chip" data-filter="dor">💊 Dor e Febre</div>
+            <div class="category-chip" data-filter="gripe">🤧 Gripe</div>
+            <div class="category-chip" data-filter="estomago">🤢 Digestão</div>
+            <div class="category-chip" data-filter="socorros">🩹 Socorros</div>
+            <div class="category-chip" data-filter="vitaminas">⚡ Vitaminas</div>
+        </nav>
     </div>
 
-    <nav class="category-scroll-container">
-        <div class="category-chip active" data-filter="all">🔥 Todos</div>
-        <div class="category-chip" data-filter="dor">💊 Dor e Febre</div>
-        <div class="category-chip" data-filter="gripe">🤧 Gripe</div>
-        <div class="category-chip" data-filter="estomago">🤢 Digestão</div>
-        <div class="category-chip" data-filter="socorros">🩹 Socorros</div>
-        <div class="category-chip" data-filter="vitaminas">⚡ Vitaminas</div>
-    </nav>
-
-    <main>
-        <section class="product-area">
-            <div class="section-title" id="sectionTitle">Populares</div>
-            <div class="product-grid">
-                <div class="product-card" data-category="dor"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Dorflex" class="product-img"></div><h3 class="product-title">Dorflex Uno</h3><p class="product-subtitle">Dipirona 1g</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 24,90</span><button class="btn-add" data-id="1" data-nome="Dorflex Uno" data-preco="24.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Dorflex" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="dor"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Neosaldina" class="product-img"></div><h3 class="product-title">Neosaldina</h3><p class="product-subtitle">Enxaqueca</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 19,50</span><button class="btn-add" data-id="2" data-nome="Neosaldina" data-preco="19.50" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Neosaldina" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="dor"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Torsilax" class="product-img"></div><h3 class="product-title">Torsilax</h3><p class="product-subtitle">Relaxante</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 17,90</span><button class="btn-add" data-id="3" data-nome="Torsilax" data-preco="17.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Torsilax" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="dor"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Advil" class="product-img"></div><h3 class="product-title">Advil 400mg</h3><p class="product-subtitle">Ibuprofeno</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 32,90</span><button class="btn-add" data-id="4" data-nome="Advil 400mg" data-preco="32.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Advil" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="dor"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Paracetamol" class="product-img"></div><h3 class="product-title">Paracetamol</h3><p class="product-subtitle">750mg - 20cp</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 8,50</span><button class="btn-add" data-id="5" data-nome="Paracetamol 750mg" data-preco="8.50" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Paracetamol" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="gripe"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Benegrip" class="product-img"></div><h3 class="product-title">Benegrip</h3><p class="product-subtitle">Antigripal</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 21,90</span><button class="btn-add" data-id="7" data-nome="Benegrip" data-preco="21.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Benegrip" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="gripe"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Cimegripe" class="product-img"></div><h3 class="product-title">Cimegripe</h3><p class="product-subtitle">Cápsulas</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 14,90</span><button class="btn-add" data-id="8" data-nome="Cimegripe" data-preco="14.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Cimegripe" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="gripe"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Vick" class="product-img"></div><h3 class="product-title">Vick Vaporub</h3><p class="product-subtitle">Pomada</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 25,00</span><button class="btn-add" data-id="9" data-nome="Vick Vaporub" data-preco="25.00" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Vick" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="gripe"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Allegra" class="product-img"></div><h3 class="product-title">Allegra</h3><p class="product-subtitle">120mg</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 65,90</span><button class="btn-add" data-id="12" data-nome="Allegra" data-preco="65.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Allegra" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="gripe"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Polaramine" class="product-img"></div><h3 class="product-title">Polaramine</h3><p class="product-subtitle">Antialérgico</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 15,90</span><button class="btn-add" data-id="13" data-nome="Polaramine" data-preco="15.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Polaramine" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="estomago"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Eno" class="product-img"></div><h3 class="product-title">Eno Sachê</h3><p class="product-subtitle">Sal de Frutas</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 5,50</span><button class="btn-add" data-id="14" data-nome="Eno Sachê" data-preco="5.50" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Eno" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="estomago"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Epocler" class="product-img"></div><h3 class="product-title">Epocler</h3><p class="product-subtitle">Flaconete</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 3,90</span><button class="btn-add" data-id="40" data-nome="Epocler" data-preco="3.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Epocler" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="estomago"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Buscopan" class="product-img"></div><h3 class="product-title">Buscopan</h3><p class="product-subtitle">Composto</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 22,00</span><button class="btn-add" data-id="15" data-nome="Buscopan" data-preco="22.00" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Buscopan" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="estomago"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Omeprazol" class="product-img"></div><h3 class="product-title">Omeprazol</h3><p class="product-subtitle">20mg - 28cp</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 28,00</span><button class="btn-add" data-id="16" data-nome="Omeprazol" data-preco="28.00" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Omeprazol" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="estomago"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Luftal" class="product-img"></div><h3 class="product-title">Luftal</h3><p class="product-subtitle">Simeticona</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 19,90</span><button class="btn-add" data-id="17" data-nome="Luftal" data-preco="19.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Luftal" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="socorros"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Merthiolate" class="product-img"></div><h3 class="product-title">Merthiolate</h3><p class="product-subtitle">Spray 45ml</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 25,90</span><button class="btn-add" data-id="50" data-nome="Merthiolate" data-preco="25.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Merthiolate" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="socorros"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Nebacetin" class="product-img"></div><h3 class="product-title">Nebacetin</h3><p class="product-subtitle">Pomada 15g</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 18,90</span><button class="btn-add" data-id="51" data-nome="Nebacetin" data-preco="18.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Nebacetin" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="socorros"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Bandaid" class="product-img"></div><h3 class="product-title">Band-aid</h3><p class="product-subtitle">10 Unidades</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 6,50</span><button class="btn-add" data-id="52" data-nome="Band-aid" data-preco="6.50" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Bandaid" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="vitaminas"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Vit+C" class="product-img"></div><h3 class="product-title">Vitamina C</h3><p class="product-subtitle">Efervescente</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 10,90</span><button class="btn-add" data-id="10" data-nome="Vitamina C" data-preco="10.90" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Vit+C" data-rx="false">+</button></div></div></div>
-                <div class="product-card" data-category="vitaminas"><span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="https://placehold.co/100x100/EEE/2E1A47?text=Centrum" class="product-img"></div><h3 class="product-title">Centrum</h3><p class="product-subtitle">A-Z</p><div class="product-footer"><div class="footer-row"><span class="product-price">R$ 80,00</span><button class="btn-add" data-id="26" data-nome="Centrum" data-preco="80.00" data-imagem="https://placehold.co/100x100/EEE/2E1A47?text=Centrum" data-rx="false">+</button></div></div></div>
+    <main id="mainArea">
+        <div class="promo-carousel-wrapper" id="promoCarousel">
+            <div class="promo-slide slide-1 active">
+                <div class="promo-content">
+                    <h2 class="promo-text">Economize até <span class="promo-highlight">30%</span> comprando aqui na máquina.</h2>
+                    <div class="promo-btn-visual">Preço Baixo</div>
+                </div>
+                <div class="promo-shape"></div>
+                <img src="https://placehold.co/150x200/2E1A47/69FFC2?text=Promo" class="promo-image">
             </div>
+            <div class="promo-slide slide-2">
+                <div class="promo-content">
+                    <h2 class="promo-text">Medicamentos genéricos com até <span class="promo-highlight">50% OFF</span>.</h2>
+                    <div class="promo-btn-visual">Ofertas do Dia</div>
+                </div>
+                <div class="promo-shape"></div>
+                <img src="https://placehold.co/150x200/2E1A47/69FFC2?text=Ofertas" class="promo-image">
+            </div>
+            <div class="promo-slide slide-3">
+                <div class="promo-content">
+                    <h2 class="promo-text">Precisa de ajuda? Fale com nosso <span class="promo-highlight">farmacêutico</span> em tempo real.</h2>
+                    <div class="promo-btn-visual">Atendimento 24h</div>
+                </div>
+                <div class="promo-shape"></div>
+                <img src="https://placehold.co/150x200/2E1A47/69FFC2?text=Ajuda" class="promo-image">
+            </div>
+            <div class="promo-slide slide-4">
+                <div class="promo-content">
+                    <h2 class="promo-text">Você está utilizando a tecnologia da <span class="promo-highlight">1234Farma</span>, farmácias inteligentes.</h2>
+                    <div class="promo-btn-visual">Inovação</div>
+                </div>
+                <div class="promo-shape"></div>
+                <img src="https://placehold.co/150x200/2E1A47/69FFC2?text=Tech" class="promo-image">
+            </div>
+            <div class="promo-pagination">
+                <span class="promo-dot active"></span><span class="promo-dot"></span><span class="promo-dot"></span><span class="promo-dot"></span>
+            </div>
+        </div>
+
+        <section class="product-area">
+            <div class="section-title" id="sectionTitle">Todos os Produtos</div>
+            <div class="product-grid" id="productsContainer"></div>
         </section>
     </main>
 
     <footer>
         <div class="footer-left-group">
-            <button id="btnExit" class="btn-footer-exit" title="Sair do sistema">
-                <span class="material-icons">logout</span> Sair
+            <button id="btnExit" class="btn-footer-exit">
+                <span class="material-icons" style="font-size:0.9rem;">logout</span> Sair
             </button>
-
-            <div class="cart-summary-text">
-                <span class="material-icons" style="font-size: 1rem;">shopping_bag</span> 
-                <span id="footerCartCount">0 un</span>
-            </div>
         </div>
         <a href="carrinho.html" class="btn-checkout">CARRINHO <span class="material-icons" style="font-size:0.9rem;">arrow_forward</span></a>
     </footer>
 
     <div id="virtualKeyboard" class="virtual-keyboard">
-        <div class="kb-row">
-            <button class="kb-key">1</button><button class="kb-key">2</button><button class="kb-key">3</button><button class="kb-key">4</button><button class="kb-key">5</button><button class="kb-key">6</button><button class="kb-key">7</button><button class="kb-key">8</button><button class="kb-key">9</button><button class="kb-key">0</button>
-        </div>
-        <div class="kb-row">
-            <button class="kb-key">Q</button><button class="kb-key">W</button><button class="kb-key">E</button><button class="kb-key">R</button><button class="kb-key">T</button><button class="kb-key">Y</button><button class="kb-key">U</button><button class="kb-key">I</button><button class="kb-key">O</button><button class="kb-key">P</button>
-        </div>
-        <div class="kb-row">
-            <button class="kb-key">A</button><button class="kb-key">S</button><button class="kb-key">D</button><button class="kb-key">F</button><button class="kb-key">G</button><button class="kb-key">H</button><button class="kb-key">J</button><button class="kb-key">K</button><button class="kb-key">L</button>
-        </div>
-        <div class="kb-row">
-            <button class="kb-key">Z</button><button class="kb-key">X</button><button class="kb-key">C</button><button class="kb-key">V</button><button class="kb-key">B</button><button class="kb-key">N</button><button class="kb-key">M</button>
-            <button class="kb-key kb-key-backspace"><span class="material-icons">backspace</span></button>
-        </div>
-        <div class="kb-row">
-            <button class="kb-key kb-key-wide kb-key-close" id="kbCloseBtn">FECHAR</button>
-            <button class="kb-key kb-key-space"> </button>
-            <button class="kb-key kb-key-wide" style="background:var(--neon-mint);color:var(--tech-purple)">BUSCAR</button>
+        <div class="kb-row"><button class="kb-key">1</button><button class="kb-key">2</button><button class="kb-key">3</button><button class="kb-key">4</button><button class="kb-key">5</button><button class="kb-key">6</button><button class="kb-key">7</button><button class="kb-key">8</button><button class="kb-key">9</button><button class="kb-key">0</button></div>
+        <div class="kb-row"><button class="kb-key">Q</button><button class="kb-key">W</button><button class="kb-key">E</button><button class="kb-key">R</button><button class="kb-key">T</button><button class="kb-key">Y</button><button class="kb-key">U</button><button class="kb-key">I</button><button class="kb-key">O</button><button class="kb-key">P</button></div>
+        <div class="kb-row"><button class="kb-key">A</button><button class="kb-key">S</button><button class="kb-key">D</button><button class="kb-key">F</button><button class="kb-key">G</button><button class="kb-key">H</button><button class="kb-key">J</button><button class="kb-key">K</button><button class="kb-key">L</button></div>
+        <div class="kb-row"><button class="kb-key">Z</button><button class="kb-key">X</button><button class="kb-key">C</button><button class="kb-key">V</button><button class="kb-key">B</button><button class="kb-key">N</button><button class="kb-key">M</button><button class="kb-key kb-key-backspace"><span class="material-icons" style="color: inherit;">backspace</span></button></div>
+        <div class="kb-row"><button class="kb-key kb-key-wide kb-key-close" id="kbCloseBtn">FECHAR</button><button class="kb-key kb-key-space"> </button><button class="kb-key kb-key-wide kb-key-search" id="kbSearchBtn">BUSCAR</button></div>
+    </div>
+
+    <div id="productDetailModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 320px; padding: 20px;">
+            <button class="btn-back-detail" id="btnBackDetail"><span class="material-icons">arrow_back</span></button>
+            <div class="product-modal-container">
+                <img id="detailImg" src="" class="modal-img-large">
+                <h2 id="detailTitle" class="modal-prod-title"></h2>
+                <div id="detailSubtitle" class="modal-prod-subtitle"></div>
+                <div class="price-comparison-box">
+                    <div class="price-row"><span style="color:#777">Na Loja Física:</span> <span id="detailPriceStore" class="old-price"></span></div>
+                    <div class="price-row"><span style="color:var(--tech-purple); font-weight:bold;">Na Máquina:</span> <span id="detailPriceMachine" class="current-price"></span></div>
+                    <span id="detailEconomy" class="economy-badge"></span>
+                </div>
+                <button id="btnDetailAdd" class="btn-modal-add">ADICIONAR <span class="material-icons">add_shopping_cart</span></button>
+            </div>
         </div>
     </div>
 
     <div id="qtyWarningModal" class="modal-overlay">
-        <div class="modal-content modal-warning">
-            <div class="material-icons modal-icon">health_and_safety</div>
-            <div class="modal-title">Atenção à Saúde</div>
-            <div class="modal-text">
-                Importante: O uso excessivo de qualquer medicamento sem a prescrição de um profissional pode causar prejuízos à sua saúde.
-                <br><br>
-                <strong>Deseja continuar comprando mais de 3 unidades desse medicamento?</strong>
-            </div>
-            <div class="modal-actions">
-                <button id="btnCancelQty" class="modal-btn btn-modal-cancel">Não</button>
-                <button id="btnConfirmQty" class="modal-btn btn-modal-confirm">Sim, desejo</button>
+        <div class="modal-content">
+            <div class="material-icons" style="font-size:3rem; color:var(--alert-orange)">health_and_safety</div>
+            <div style="font-weight:800; margin:10px 0;">Atenção à Saúde</div>
+            <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">Deseja comprar mais de 3 unidades desse medicamento?</p>
+            <div style="display:flex; gap:10px;">
+                <button id="btnCancelQty" style="flex:1; padding:10px; border-radius:10px; border:none; background:#eee">Não</button>
+                <button id="btnConfirmQty" style="flex:1; padding:10px; border-radius:10px; border:none; background:var(--alert-orange); color:white">Sim</button>
             </div>
         </div>
     </div>
@@ -283,179 +336,167 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const nomeSalvo = sessionStorage.getItem('usuarioFarmaFacil');
-            if (nomeSalvo) {
-                document.getElementById('userNameDisplay').textContent = nomeSalvo.split(' ')[0];
-            }
+            if (nomeSalvo) { document.getElementById('userNameDisplay').textContent = nomeSalvo.split(' ')[0]; }
 
-            // BOTÃO SAIR
-            document.getElementById('btnExit').addEventListener('click', function() {
-                if(confirm("Deseja realmente sair?")) {
-                    sessionStorage.removeItem('usuarioFarmaFacil');
-                    window.location.href = 'login.html';
-                }
-            });
+            const produtos = [
+                { id: 1, nome: "Dorflex", desc: "Analgésico", preco: 15.90, precoLoja: 22.00, img: "img/dorflex.png", cat: "dor", dose: "500mg", pack: "10 Comp." },
+                { id: 2, nome: "Neosaldina", desc: "Enxaqueca", preco: 19.50, precoLoja: 28.00, img: "img/neosaldina.png", cat: "dor", dose: "30 drágeas", pack: "Caixa" },
+                { id: 3, nome: "Torsilax", desc: "Relaxante Muscular", preco: 12.00, precoLoja: 18.50, img: "img/torsilax.png", cat: "dor", dose: "Genérico", pack: "30 Comp." },
+                { id: 4, nome: "Advil", desc: "Ibuprofeno", preco: 25.00, precoLoja: 35.00, img: "img/advil.png", cat: "dor", dose: "400mg", pack: "Cápsula" },
+                { id: 5, nome: "Paracetamol", desc: "750mg", preco: 8.00, precoLoja: 12.00, img: "img/paracetamol.png", cat: "dor", dose: "750mg", pack: "20 Comp." },
+                { id: 6, nome: "Benegrip", desc: "Antigripal", preco: 21.00, precoLoja: 29.00, img: "img/benegrip.png", cat: "gripe", dose: "Dia/Noite", pack: "6 Comp." },
+                { id: 7, nome: "Cimegripe", desc: "Resfriados", preco: 14.00, precoLoja: 19.00, img: "img/cimegripe.png", cat: "gripe", dose: "400mg", pack: "20 Cáps." },
+                { id: 8, nome: "Vick Vaporub", desc: "Pomada", preco: 28.00, precoLoja: 38.00, img: "img/vick.png", cat: "gripe", dose: "12g", pack: "Pote" },
+                { id: 9, nome: "Vitamina C", desc: "Efervescente", preco: 11.00, precoLoja: 16.00, img: "img/vitamina_c.png", cat: "vitaminas", dose: "1g", pack: "10 Eferv." },
+                { id: 10, nome: "Allegra", desc: "Antialérgico", preco: 45.00, precoLoja: 58.00, img: "img/allegra.png", cat: "gripe", dose: "120mg", pack: "10 Comp." },
+                { id: 11, nome: "Polaramine", desc: "Alergias", preco: 18.00, precoLoja: 25.00, img: "img/polaramine.png", cat: "gripe", dose: "2mg", pack: "20 Comp." },
+                { id: 12, nome: "Eno", desc: "Sal de Frutas", preco: 4.50, precoLoja: 7.00, img: "img/eno.png", cat: "estomago", dose: "5g", pack: "2 Sachês" },
+                { id: 13, nome: "Buscopan", desc: "Cólica", preco: 16.00, precoLoja: 24.00, img: "img/buscopan.png", cat: "estomago", dose: "10mg", pack: "20 Drágeas" },
+                { id: 14, nome: "Omeprazol", desc: "Estômago", preco: 22.00, precoLoja: 32.00, img: "img/omeprazol.png", cat: "estomago", dose: "20mg", pack: "28 Cáps." },
+                { id: 15, nome: "Luftal", desc: "Gases", preco: 19.00, precoLoja: 26.00, img: "img/luftal.png", cat: "estomago", dose: "125mg", pack: "Cápsula" },
+                { id: 16, nome: "Centrum", desc: "Multivitamínico", preco: 85.00, precoLoja: 110.00, img: "img/centrum.png", cat: "vitaminas", dose: "A-Z", pack: "30 Comp." },
+                { id: 17, nome: "Epocler", desc: "Fígado", preco: 3.50, precoLoja: 6.00, img: "img/epocler.png", cat: "estomago", dose: "10ml", pack: "Flaconete" },
+                { id: 18, nome: "Nebacetin", desc: "Pomada", preco: 19.00, precoLoja: 28.00, img: "img/nebacetin.png", cat: "socorros", dose: "15g", pack: "Bisnaga" },
+                { id: 19, nome: "Merthiolate", desc: "Antisséptico", preco: 24.00, precoLoja: 32.00, img: "img/merthiolate.png", cat: "socorros", dose: "Spray", pack: "45ml" },
+                { id: 20, nome: "Band-aid", desc: "Curativos", preco: 7.00, precoLoja: 12.00, img: "img/bandaid.png", cat: "socorros", dose: "Padrão", pack: "10 Un." }
+            ];
 
+            const container = document.getElementById('productsContainer');
             let carrinho = JSON.parse(sessionStorage.getItem('carrinhoFarmaFacil')) || [];
-            atualizarContadoresCarrinho();
-
-            // TECLADO VIRTUAL LÓGICA
-            const searchTrigger = document.getElementById('searchTrigger');
-            const searchText = document.getElementById('searchText');
-            const cursorBar = document.getElementById('cursorBar');
-            const keyboard = document.getElementById('virtualKeyboard');
-            const kbKeys = document.querySelectorAll('.kb-key');
-            const kbCloseBtn = document.getElementById('kbCloseBtn');
-            const productCards = document.querySelectorAll('.product-card');
-            const productArea = document.querySelector('.product-area'); // Para ajustar o padding
-
             let currentSearchTerm = "";
 
-            // Abrir teclado
-            searchTrigger.addEventListener('click', () => {
-                keyboard.classList.add('active');
-                searchTrigger.classList.add('active-input');
-                cursorBar.style.display = 'inline-block'; 
-                productArea.classList.add('keyboard-open'); // Ajusta padding
-                if(currentSearchTerm === "") searchText.textContent = ""; 
-            });
+            const atualizarContadores = () => { document.getElementById('cartBadge').textContent = carrinho.length; };
+            atualizarContadores();
 
-            function closeKeyboard() {
-                keyboard.classList.remove('active');
-                searchTrigger.classList.remove('active-input');
-                cursorBar.style.display = 'none'; 
-                productArea.classList.remove('keyboard-open'); // Reseta padding
-                if(currentSearchTerm === "") searchText.textContent = "Toque para pesquisar...";
-            }
-
-            kbCloseBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                closeKeyboard();
-            });
-
-            // Digitação
-            kbKeys.forEach(key => {
-                key.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const content = key.textContent.trim();
-                    const isBackspace = key.classList.contains('kb-key-backspace') || key.querySelector('.material-icons');
-                    const isSpace = key.classList.contains('kb-key-space');
-                    const isSearch = content === 'BUSCAR';
-                    const isClose = key.id === 'kbCloseBtn';
-
-                    if (isClose) return;
-
-                    if (isSearch) {
-                        closeKeyboard();
-                        return;
+            const render = (filter = 'all', term = '') => {
+                container.innerHTML = '';
+                produtos.forEach(p => {
+                    const matchesFilter = filter === 'all' || p.cat === filter;
+                    const matchesSearch = term === '' || p.nome.toLowerCase().includes(term.toLowerCase());
+                    if (matchesFilter && matchesSearch) {
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+                        card.onclick = () => abrirDetalhes(p);
+                        card.innerHTML = `<span class="reg-tag tag-otc">Livre</span><div class="product-img-container"><img src="${p.img}" class="product-img" onerror="this.src='https://placehold.co/100/eee/999?text=?'"></div><h3 class="product-title">${p.nome}</h3><p class="product-subtitle">${p.desc}</p><div class="footer-row"><span class="product-price">R$ ${p.preco.toFixed(2).replace('.',',')}</span><button class="btn-add" id="btnAdd-${p.id}" onclick="event.stopPropagation(); window.adicionarDireto(${p.id})">+</button></div>`;
+                        container.appendChild(card);
                     }
-
-                    if (isBackspace) {
-                        currentSearchTerm = currentSearchTerm.slice(0, -1);
-                    } else if (isSpace) {
-                        currentSearchTerm += " "; 
-                    } else {
-                        currentSearchTerm += content;
-                    }
-
-                    // Atualiza visual
-                    searchText.textContent = currentSearchTerm;
-
-                    // Aplica Filtro (usando startsWith para ordem exata)
-                    const term = currentSearchTerm.toLowerCase();
-                    productCards.forEach(card => {
-                        const title = card.querySelector('.product-title').textContent.toLowerCase();
-                        // LÓGICA ALTERADA: 'startsWith' ao invés de 'includes'
-                        if (title.startsWith(term)) card.style.display = 'flex';
-                        else card.style.display = 'none';
-                    });
                 });
-            });
+            };
+            render();
 
-            // Lógica do Modal (Carrinho)
-            const qtyWarningModal = document.getElementById('qtyWarningModal');
-            const btnCancelQty = document.getElementById('btnCancelQty');
-            const btnConfirmQty = document.getElementById('btnConfirmQty');
-            let pendingProduct = null;
+            const modal = document.getElementById('productDetailModal');
+            let currentProd = null;
+            window.abrirDetalhes = (p) => {
+                currentProd = p;
+                document.getElementById('detailImg').src = p.img;
+                document.getElementById('detailTitle').textContent = p.nome;
+                document.getElementById('detailSubtitle').textContent = p.desc;
+                document.getElementById('detailPriceStore').textContent = "R$ " + p.precoLoja.toFixed(2).replace('.',',');
+                document.getElementById('detailPriceMachine').textContent = "R$ " + p.preco.toFixed(2).replace('.',',');
+                document.getElementById('detailEconomy').innerHTML = `Economia de <strong>R$ ${(p.precoLoja - p.preco).toFixed(2).replace('.',',')}</strong> comprando na máquina`;
+                modal.style.display = 'flex';
+            };
+            document.getElementById('btnBackDetail').onclick = () => modal.style.display = 'none';
 
-            btnCancelQty.addEventListener('click', () => {
-                qtyWarningModal.style.display = 'none';
-                pendingProduct = null;
-            });
-
-            btnConfirmQty.addEventListener('click', () => {
-                if(pendingProduct) {
-                    carrinho.push(pendingProduct);
+            // === FUNÇÃO DE ADICIONAR COM ANIMAÇÃO (CORREÇÃO 2) ===
+            window.adicionarDireto = (id, fromModal = false) => {
+                const p = produtos.find(x => x.id === id);
+                if (carrinho.filter(x => x.id === id).length >= 3) {
+                    window.pending = p; document.getElementById('qtyWarningModal').style.display = 'flex';
+                } else {
+                    carrinho.push({id: p.id, nome: p.nome, preco: p.preco, imagem: p.img});
                     sessionStorage.setItem('carrinhoFarmaFacil', JSON.stringify(carrinho));
-                    atualizarContadoresCarrinho();
-                }
-                qtyWarningModal.style.display = 'none';
-                pendingProduct = null;
-            });
+                    atualizarContadores();
 
-
-            // Filtros de Categoria
-            const categoryChips = document.querySelectorAll('.category-chip');
-            const sectionTitle = document.getElementById('sectionTitle');
-
-            categoryChips.forEach(chip => {
-                chip.addEventListener('click', function() {
-                    categoryChips.forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-                    const filter = this.getAttribute('data-filter');
-                    
-                    sectionTitle.textContent = this.textContent.trim().substring(2);
-
-                    productCards.forEach(card => {
-                        if (filter === 'all' || card.getAttribute('data-category') === filter) card.style.display = 'flex';
-                        else card.style.display = 'none';
-                    });
-                });
-            });
-
-            // Adicionar ao Carrinho
-            document.querySelectorAll('.btn-add').forEach(button => {
-                button.addEventListener('click', function() {
-                    const isRx = this.getAttribute('data-rx') === 'true';
-                    if (isRx) {
-                        alert("⚠️ Requer Receita!\nChame o farmacêutico.");
-                    } else {
-                        const id = this.getAttribute('data-id');
-                        const qtdAtual = carrinho.filter(item => item.id === id).length;
-
-                        const produto = {
-                            id: id,
-                            nome: this.getAttribute('data-nome'),
-                            preco: parseFloat(this.getAttribute('data-preco')),
-                            imagem: this.getAttribute('data-imagem')
-                        };
-
-                        if (qtdAtual >= 3) {
-                            pendingProduct = produto;
-                            qtyWarningModal.style.display = 'flex';
-                        } else {
-                            carrinho.push(produto);
-                            sessionStorage.setItem('carrinhoFarmaFacil', JSON.stringify(carrinho));
-                            atualizarContadoresCarrinho();
-                            
-                            const originalHtml = this.innerHTML;
-                            this.innerHTML = '<span class="material-icons" style="font-size:1rem;">check</span>';
-                            this.style.backgroundColor = 'var(--neon-mint)';
-                            this.style.color = 'var(--tech-purple)';
-                            setTimeout(() => { 
-                                this.innerHTML = originalHtml; 
-                                this.style.backgroundColor = 'transparent';
-                                this.style.color = 'var(--neon-mint)';
-                            }, 500);
-                        }
+                    // Lógica visual do ícone de verificado
+                    const btn = fromModal ? document.getElementById('btnDetailAdd') : document.getElementById(`btnAdd-${id}`);
+                    if (btn) {
+                        const originalContent = btn.innerHTML;
+                        btn.classList.add('added');
+                        btn.innerHTML = '<span class="material-icons" style="font-size:1.2rem">check</span>';
+                        setTimeout(() => {
+                            btn.classList.remove('added');
+                            btn.innerHTML = originalContent;
+                        }, 600);
                     }
+                }
+            };
+
+            document.getElementById('btnDetailAdd').onclick = () => window.adicionarDireto(currentProd.id, true);
+            document.getElementById('btnConfirmQty').onclick = () => { 
+                carrinho.push({id: window.pending.id, nome: window.pending.nome, preco: window.pending.preco, imagem: window.pending.imagem}); 
+                sessionStorage.setItem('carrinhoFarmaFacil', JSON.stringify(carrinho)); 
+                atualizarContadores(); 
+                document.getElementById('qtyWarningModal').style.display='none'; 
+            };
+            document.getElementById('btnCancelQty').onclick = () => document.getElementById('qtyWarningModal').style.display='none';
+
+            // === CARROSSEL DE PROPAGANDAS (CORREÇÃO 1) ===
+            const slides = document.querySelectorAll('.promo-slide');
+            const dots = document.querySelectorAll('.promo-dot');
+            let curSlide = 0;
+            setInterval(() => {
+                slides[curSlide].classList.remove('active');
+                dots[curSlide].classList.remove('active');
+                curSlide = (curSlide + 1) % slides.length;
+                slides[curSlide].classList.add('active');
+                dots[curSlide].classList.add('active');
+            }, 5000);
+
+            // TECLADO E PROPAGANDA
+            const kb = document.getElementById('virtualKeyboard');
+            const promoCarousel = document.getElementById('promoCarousel');
+            const mainArea = document.getElementById('mainArea');
+            const searchText = document.getElementById('searchText');
+
+            function fecharTeclado() {
+                kb.classList.remove('active');
+                document.getElementById('cursorBar').style.display = 'none';
+                promoCarousel.style.display = 'block';
+                mainArea.style.paddingTop = '185px';
+                if(!currentSearchTerm) searchText.textContent = "Toque para pesquisar...";
+            }
+
+            document.getElementById('searchTrigger').onclick = () => {
+                kb.classList.add('active');
+                document.getElementById('cursorBar').style.display = 'inline-block';
+                promoCarousel.style.display = 'none';
+                mainArea.style.paddingTop = '125px';
+                if(!currentSearchTerm) searchText.textContent = "";
+            };
+
+            document.getElementById('kbCloseBtn').onclick = fecharTeclado;
+            document.getElementById('kbSearchBtn').onclick = fecharTeclado;
+
+            document.querySelectorAll('.kb-key').forEach(k => {
+                k.addEventListener('click', (e) => {
+                    const char = k.textContent;
+                    if(k.classList.contains('kb-key-backspace') || k.innerHTML.includes('backspace')) {
+                        currentSearchTerm = currentSearchTerm.slice(0,-1);
+                    } else if(k.classList.contains('kb-key-space')) {
+                        currentSearchTerm += " ";
+                    } else if(!k.classList.contains('kb-key-wide')) {
+                        currentSearchTerm += char;
+                    }
+                    if(kb.classList.contains('active')) {
+                        searchText.textContent = currentSearchTerm;
+                    }
+                    render('all', currentSearchTerm);
                 });
             });
 
-            function atualizarContadoresCarrinho() {
-                const count = carrinho.length;
-                document.getElementById('cartBadge').textContent = count;
-                document.getElementById('footerCartCount').textContent = count + ' un';
-            }
+            document.querySelectorAll('.category-chip').forEach(c => {
+                c.onclick = () => {
+                    document.querySelectorAll('.category-chip').forEach(x => x.classList.remove('active'));
+                    c.classList.add('active');
+                    document.getElementById('sectionTitle').textContent = c.textContent.substring(2);
+                    render(c.dataset.filter, currentSearchTerm);
+                };
+            });
+
+            let idle = 0; setInterval(() => { if(++idle >= 40) window.location.href='propaganda.html'; }, 1000);
+            document.onclick = () => idle = 0;
+            document.getElementById('btnExit').onclick = () => { if(confirm("Deseja realmente sair?")) { sessionStorage.clear(); window.location.href = 'login.html'; } };
         });
     </script>
 </body>
