@@ -29,10 +29,14 @@
         }   
 
         .container {
-            background-color: var(--pure-white); padding: 25px;
+            background-color: var(--pure-white); padding: 30px;
             border-radius: 24px; box-shadow: var(--shadow-soft);
             text-align: center; max-width: 450px; width: 100%;
             border: 1px solid rgba(0,0,0,0.02);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .logo { font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; }
@@ -65,6 +69,13 @@
         .back-text { margin-top: 15px; font-size: 0.8rem; color: #888; }
         .link-btn { color: var(--tech-purple); font-weight: 800; cursor: pointer; border-bottom: 2px solid var(--neon-mint); }
 
+        /* MENSAGEM DE SUCESSO (ESTADO FINAL) */
+        .success-content { display: none; flex-direction: column; align-items: center; animation: fadeIn 0.5s ease; }
+        .success-content .material-icons { font-size: 5rem; color: var(--neon-mint); margin-bottom: 15px; }
+        .success-content h2 { font-weight: 900; color: var(--tech-purple); }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
         /* TECLADO VIRTUAL */
         .virtual-keyboard { 
             position: fixed; bottom: -500px; left: 0; width: 100%; 
@@ -93,44 +104,54 @@
 
     <div class="screen-wrapper" id="wrapper">
         <div class="container" id="mainContainer">
-            <div class="logo">
-                <span class="brand-1234">1234</span><span class="brand-farma">Farma</span>
-            </div>
-            <p class="instructions">Crie sua conta e garanta o melhor preço.</p>
             
-            <div class="form-group">
-                <label class="label">Nome Completo</label>
-                <div class="fake-input" id="inputNome" onclick="openKB('inputNome')">
-                    <span class="val"></span><span class="placeholder">Ex: João Silva</span>
+            <div id="formContent">
+                <div class="logo">
+                    <span class="brand-1234">1234</span><span class="brand-farma">Farma</span>
+                </div>
+                <p class="instructions">Crie sua conta e garanta o melhor preço.</p>
+                
+                <div class="form-group">
+                    <label class="label">Nome Completo</label>
+                    <div class="fake-input" id="inputNome" onclick="openKB('inputNome')">
+                        <span class="val"></span><span class="placeholder">Ex: João Silva</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">E-mail</label>
+                    <div class="fake-input" id="inputEmail" onclick="openKB('inputEmail')">
+                        <span class="val"></span><span class="placeholder">seu@email.com</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">CPF</label>
+                    <div class="fake-input" id="inputCPF" onclick="openKB('inputCPF')">
+                        <span class="val"></span><span class="placeholder">000.000.000-00</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">Senha (Mínimo 6 dígitos)</label>
+                    <div class="fake-input" id="inputPass" onclick="openKB('inputPass')">
+                        <span class="val"></span><span class="placeholder">Escolha sua senha</span>
+                    </div>
+                </div>
+
+                <button class="btn-register" onclick="salvarCadastro()">FINALIZAR CADASTRO</button>
+
+                <div class="back-text">
+                    Já tem conta? <span class="link-btn" onclick="window.location.href='login.html'">Fazer Login</span>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="label">E-mail</label>
-                <div class="fake-input" id="inputEmail" onclick="openKB('inputEmail')">
-                    <span class="val"></span><span class="placeholder">seu@email.com</span>
-                </div>
+            <div id="successContent" class="success-content">
+                <span class="material-icons">check_circle</span>
+                <h2>Cadastro Realizado!</h2>
+                <p style="margin-top: 10px; color: #666;">Redirecionando para o login...</p>
             </div>
 
-            <div class="form-group">
-                <label class="label">CPF</label>
-                <div class="fake-input" id="inputCPF" onclick="openKB('inputCPF')">
-                    <span class="val"></span><span class="placeholder">000.000.000-00</span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="label">Senha (Mínimo 6 dígitos)</label>
-                <div class="fake-input" id="inputPass" onclick="openKB('inputPass')">
-                    <span class="val"></span><span class="placeholder">Escolha sua senha</span>
-                </div>
-            </div>
-
-            <button class="btn-register" onclick="salvarCadastro()">FINALIZAR CADASTRO</button>
-
-            <div class="back-text">
-                Já tem conta? <span class="link-btn" onclick="window.location.href='login.html'">Fazer Login</span>
-            </div>
         </div>
     </div>
 
@@ -210,10 +231,7 @@
                     formData[currentTargetId] += " ";
                 } 
                 else {
-                    // Restrição apenas para CPF (11 dígitos)
                     if(currentTargetId === 'inputCPF' && formData[currentTargetId].length >= 11) return;
-                    
-                    // Trava de 6 dígitos da senha REMOVIDA
                     formData[currentTargetId] += char;
                 }
 
@@ -235,14 +253,26 @@
         });
 
         function salvarCadastro() {
+            // Validação simples
             if(formData.inputNome.length < 3 || formData.inputCPF.length < 11 || !formData.inputEmail.includes('@') || formData.inputPass.length < 6) {
                 alert("Por favor, preencha todos os campos corretamente (Senha mínima de 6 dígitos).");
                 return;
             }
-            sessionStorage.setItem('usuarioFarmaFacil', formData.inputNome);
-            window.location.href = 'loja.html';
+            
+            // 1. Fecha o Teclado imediatamente
+            closeKB();
+            
+            // 2. Esconde o formulário e mostra a tela de sucesso
+            document.getElementById('formContent').style.display = 'none';
+            document.getElementById('successContent').style.display = 'flex';
+            
+            // 3. Aguarda 3 segundos e redireciona
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 3000);
         }
 
+        // Timer de inatividade
         let idleTime = 0;
         setInterval(() => {
             idleTime++;
