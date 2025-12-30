@@ -17,10 +17,9 @@
         
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
         
-        /* Ajuste de escala */
         body { 
             background-color: var(--page-bg); 
-            color: var(--tech-purple); /* Texto Roxo */
+            color: var(--tech-purple); 
             height: 100vh; 
             display: flex; 
             flex-direction: column; 
@@ -33,7 +32,7 @@
             padding: 10px 15px; 
             display: flex; 
             align-items: center; 
-            border-bottom: 2px solid var(--neon-mint); /* Linha Verde */
+            border-bottom: 2px solid var(--neon-mint); 
             flex-shrink: 0; 
             gap: 10px; 
         }
@@ -42,18 +41,16 @@
             text-decoration: none; 
             color: var(--tech-purple); 
             display: flex; align-items: center; gap: 5px; font-weight: 700; 
-            border: 1px solid #ccc; /* Borda cinza suave */
+            border: 1px solid #ccc; 
             padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; 
             transition: all 0.3s;
             background-color: #fff;
         }
-        .btn-back:active { background-color: #eee; } /* Feedback de toque */
         
         .header-title { font-size: 1rem; font-weight: 800; margin-left: auto; margin-right: auto; color: var(--tech-purple); }
 
         main { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; width: 100%; }
 
-        /* Resumo menor (Card Roxo para destaque) */
         .payment-summary { 
             text-align: center; 
             margin-bottom: 20px; 
@@ -66,12 +63,11 @@
         .payment-label { font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 2px; }
         .payment-value { font-size: 1.8rem; font-weight: 800; color: var(--neon-mint); }
 
-        /* Lista de Métodos em 1 coluna */
         .methods-grid { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-bottom: 15px; }
         
         .method-card {
             background-color: var(--pure-white);
-            border: 2px solid var(--neon-mint); /* BORDA VERDE ESTÁTICA */
+            border: 2px solid var(--neon-mint); 
             border-radius: 10px;
             padding: 12px;
             display: flex;
@@ -79,25 +75,14 @@
             gap: 15px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            /* Sem transição de hover/border */
         }
         
-        /* Feedback de clique (Toque) */
-        .method-card:active { 
-            background-color: #f0fff9; 
-            transform: scale(0.98); 
-        }
+        .method-card:active { background-color: #f0fff9; transform: scale(0.98); }
+        .method-card.active { background-color: #e0fcf3; box-shadow: inset 0 0 0 1px var(--neon-mint); }
         
-        /* Estado Ativo (Selecionado) */
-        .method-card.active { 
-            background-color: #e0fcf3; /* Fundo verde claro */
-            box-shadow: inset 0 0 0 1px var(--neon-mint); /* Borda interna extra */
-        }
-        
-        .method-icon { font-size: 1.8rem; color: var(--neon-mint); } /* Ícone Verde */
+        .method-icon { font-size: 1.8rem; color: var(--neon-mint); } 
         .method-name { font-weight: 700; font-size: 1rem; color: var(--tech-purple); }
 
-        /* Área Dinâmica Compacta (Branca) */
         .dynamic-content {
             width: 100%;
             background-color: var(--pure-white);
@@ -168,16 +153,13 @@
         let carrinho = [];
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Verifica Login (Opcional, mantive conforme seu código)
             const nomeSalvo = sessionStorage.getItem('usuarioFarmaFacil');
             if (!nomeSalvo) { window.location.href = 'login.html'; return; }
 
             carrinho = JSON.parse(sessionStorage.getItem('carrinhoFarmaFacil')) || [];
             
-            // CORREÇÃO DO CÁLCULO
             let total = 0;
             carrinho.forEach(item => {
-                // Multiplica preço pela quantidade. Se não tiver 'quantidade' (1), usa 1.
                 const qtd = item.quantidade || 1;
                 total += (item.preco * qtd);
             });
@@ -189,7 +171,6 @@
             const container = document.getElementById('dynamicContent');
             const cards = document.querySelectorAll('.method-card');
             
-            // Remove active de todos e adiciona no clicado
             cards.forEach(card => card.classList.remove('active'));
             element.classList.add('active');
 
@@ -231,17 +212,18 @@
                 <div class="success-screen" style="display: flex;">
                     <span class="material-icons success-icon">check_circle</span>
                     <div class="instruction-title" style="color: var(--neon-mint);">Aprovado!</div>
-                    <p class="instruction-text">Liberando produtos...</p>
+                    <p class="instruction-text" style="font-weight: 900; font-size: 1.2rem;">Pronto, retire seus produtos abaixo!</p>
                 </div>
             `;
 
-            // Envia sinal para o Simulador
+            // Envia sinal para o Simulador (Hardware)
             window.parent.postMessage({ action: 'DISPENSAR_PRODUTOS', carrinho: carrinho }, '*');
 
+            // Limpa o carrinho e redireciona para Agradecimentos após a retirada
             setTimeout(() => {
                 sessionStorage.removeItem('carrinhoFarmaFacil'); 
-                window.location.href = 'loja.html';
-            }, 5000);
+                window.location.href = 'agradecimentos.html';
+            }, 6000);
         }
     </script>
 </body>

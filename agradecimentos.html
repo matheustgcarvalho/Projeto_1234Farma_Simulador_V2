@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>1234Farma - Concluído</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root { 
+            --tech-purple: #2E1A47;
+            --neon-mint: #00D284;
+            --page-bg: rgba(46, 26, 71, 0.6); 
+            --white-pure: #FFFFFF;    
+            --card-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            --alert-orange: #ff9800; 
+            --error-red: #ff4757;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; user-select: none; }
+        
+        body { 
+            background-color: var(--page-bg);
+            backdrop-filter: blur(8px); 
+            height: 100vh; 
+            width: 100vw;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .alert-card {
+            background-color: var(--white-pure);
+            border-radius: 35px; 
+            padding: 30px 25px;
+            width: 95%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--tech-purple);
+            margin-bottom: 15px;
+        }
+
+        .user-name { color: var(--neon-mint); }
+
+        .info-text {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .medical-alert {
+            background-color: rgba(255, 152, 0, 0.08);
+            border: 1px solid var(--alert-orange);
+            color: #555;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            text-align: left;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* PESQUISA DE SATISFAÇÃO */
+        .satisfaction-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--tech-purple);
+            margin-bottom: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .rating-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .rating-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            flex: 1;
+        }
+
+        .rating-option .material-icons {
+            font-size: 2.2rem;
+            color: #ddd;
+            transition: color 0.3s;
+        }
+
+        .rating-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #aaa;
+        }
+
+        /* Cores solicitadas ao selecionar */
+        .rating-option.selected.v-bad .material-icons,
+        .rating-option.selected.bad .material-icons { color: var(--error-red); }
+        
+        .rating-option.selected.medium .material-icons { color: var(--alert-orange); }
+        
+        .rating-option.selected.good .material-icons,
+        .rating-option.selected.v-good .material-icons { color: var(--neon-mint); }
+
+        .rating-option.selected .rating-label { color: var(--tech-purple); }
+
+        .btn-finish {
+            background-color: var(--tech-purple);
+            color: var(--neon-mint);
+            width: 100%;
+            padding: 16px;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-finish:active { transform: scale(0.98); }
+
+    </style>
+</head>
+<body>
+
+    <div class="alert-card">
+        <h1>Obrigado, <span class="user-name" id="displayUserName">Gabriel</span>!</h1>
+        
+        <div class="info-text">
+            <span class="material-icons" style="font-size: 1.2rem; vertical-align: bottom; color: var(--tech-purple);">receipt_long</span>
+            O <strong>resumo da sua jornada</strong> e sua <strong>Nota Fiscal</strong> foram enviados para o seu e-mail.
+        </div>
+
+        <div class="medical-alert">
+            <span class="material-icons" style="color: var(--alert-orange); font-size: 1.1rem;">warning</span>
+            <div>
+                Importante: Por mais que você tenha sido orientado pelo farmacêutico, é de extrema importância manter o acompanhamento médico regular.
+            </div>
+        </div>
+
+        <div class="satisfaction-title">Como foi sua experiência hoje?</div>
+
+        <div class="rating-container">
+            <div class="rating-option v-bad" onclick="rate(this)">
+                <span class="material-icons">sentiment_very_dissatisfied</span>
+                <span class="rating-label">Muito ruim</span>
+            </div>
+            <div class="rating-option bad" onclick="rate(this)">
+                <span class="material-icons">sentiment_dissatisfied</span>
+                <span class="rating-label">Ruim</span>
+            </div>
+            <div class="rating-option medium" onclick="rate(this)">
+                <span class="material-icons">sentiment_neutral</span>
+                <span class="rating-label">Médio</span>
+            </div>
+            <div class="rating-option good" onclick="rate(this)">
+                <span class="material-icons">sentiment_satisfied</span>
+                <span class="rating-label">Bom</span>
+            </div>
+            <div class="rating-option v-good" onclick="rate(this)">
+                <span class="material-icons">sentiment_very_satisfied</span>
+                <span class="rating-label">Muito bom</span>
+            </div>
+        </div>
+
+        <button class="btn-finish" id="btnMain" onclick="finalizarTudo()">
+            CONCLUIR <span class="material-icons">done_all</span>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nomeSalvo = sessionStorage.getItem('usuarioFarmaFacil');
+            if (nomeSalvo) {
+                document.getElementById('displayUserName').textContent = nomeSalvo.split(' ')[0];
+            }
+        });
+
+        function rate(element) {
+            document.querySelectorAll('.rating-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+
+            const btn = document.getElementById('btnMain');
+            btn.innerHTML = 'AVALIAR E CONCLUIR <span class="material-icons">send</span>';
+            btn.style.backgroundColor = '#00D284'; 
+            btn.style.color = '#2E1A47';
+        }
+
+        function finalizarTudo() {
+            sessionStorage.removeItem('carrinhoFarmaFacil');
+            window.location.href = 'login.html';
+        }
+    </script>
+
+</body>
+</html>
