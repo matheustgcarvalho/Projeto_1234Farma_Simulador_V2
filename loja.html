@@ -88,6 +88,7 @@
             padding: 5px 15px 10px 15px; background-color: transparent;
             white-space: nowrap; flex-shrink: 0; height: 45px; 
             scrollbar-width: none; -ms-overflow-style: none;
+            cursor: grab; /* Adicionado cursor de mão */
         }
         .category-scroll-container::-webkit-scrollbar { display: none; }
         .category-chip {
@@ -232,8 +233,7 @@
             </div>
         </div>
 
-        <nav class="category-scroll-container">
-            <div class="category-chip active" data-filter="all">🔥 Todos</div>
+        <nav class="category-scroll-container" id="categoryNav"> <div class="category-chip active" data-filter="all">🔥 Todos</div>
             <div class="category-chip" data-filter="dor">💊 Dor e Febre</div>
             <div class="category-chip" data-filter="gripe">🤧 Gripe</div>
             <div class="category-chip" data-filter="estomago">🤢 Digestão</div>
@@ -325,7 +325,7 @@
         <div class="modal-content">
             <div class="material-icons" style="font-size:3rem; color:var(--alert-orange)">health_and_safety</div>
             <div style="font-weight:800; margin:10px 0;">Atenção à Saúde</div>
-            <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">Deseja comprar mais de 3 unidades desse medicamento?</p>
+            <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">Importante: O uso excessivo de qualquer medicamento sem a prescrição de um profissional pode causar prejuízos á sua saúde. <br><br> Deseja comprar mais de 3 unidades desse medicamento?</p>
             <div style="display:flex; gap:10px;">
                 <button id="btnCancelQty" style="flex:1; padding:10px; border-radius:10px; border:none; background:#eee">Não</button>
                 <button id="btnConfirmQty" style="flex:1; padding:10px; border-radius:10px; border:none; background:var(--alert-orange); color:white">Sim</button>
@@ -335,6 +335,28 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // === LÓGICA DE ROLAGEM COM O MOUSE (CLICAR E ARRASTAR) ===
+            const nav = document.getElementById('categoryNav');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            nav.addEventListener('mousedown', (e) => {
+                isDown = true;
+                nav.style.cursor = 'grabbing';
+                startX = e.pageX - nav.offsetLeft;
+                scrollLeft = nav.scrollLeft;
+            });
+            nav.addEventListener('mouseleave', () => { isDown = false; nav.style.cursor = 'grab'; });
+            nav.addEventListener('mouseup', () => { isDown = false; nav.style.cursor = 'grab'; });
+            nav.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - nav.offsetLeft;
+                const walk = (x - startX) * 2; 
+                nav.scrollLeft = scrollLeft - walk;
+            });
+
             const nomeSalvo = sessionStorage.getItem('usuarioFarmaFacil');
             if (nomeSalvo) { document.getElementById('userNameDisplay').textContent = nomeSalvo.split(' ')[0]; }
 
@@ -398,7 +420,6 @@
             };
             document.getElementById('btnBackDetail').onclick = () => modal.style.display = 'none';
 
-            // === FUNÇÃO DE ADICIONAR COM ANIMAÇÃO (CORREÇÃO 2) ===
             window.adicionarDireto = (id, fromModal = false) => {
                 const p = produtos.find(x => x.id === id);
                 if (carrinho.filter(x => x.id === id).length >= 3) {
@@ -408,7 +429,6 @@
                     sessionStorage.setItem('carrinhoFarmaFacil', JSON.stringify(carrinho));
                     atualizarContadores();
 
-                    // Lógica visual do ícone de verificado
                     const btn = fromModal ? document.getElementById('btnDetailAdd') : document.getElementById(`btnAdd-${id}`);
                     if (btn) {
                         const originalContent = btn.innerHTML;
@@ -431,7 +451,6 @@
             };
             document.getElementById('btnCancelQty').onclick = () => document.getElementById('qtyWarningModal').style.display='none';
 
-            // === CARROSSEL DE PROPAGANDAS (CORREÇÃO 1) ===
             const slides = document.querySelectorAll('.promo-slide');
             const dots = document.querySelectorAll('.promo-dot');
             let curSlide = 0;
@@ -443,7 +462,6 @@
                 dots[curSlide].classList.add('active');
             }, 5000);
 
-            // TECLADO E PROPAGANDA
             const kb = document.getElementById('virtualKeyboard');
             const promoCarousel = document.getElementById('promoCarousel');
             const mainArea = document.getElementById('mainArea');
