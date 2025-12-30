@@ -46,6 +46,21 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        /* ÍCONE DE VERIFICADO VERDE */
+        .success-check-icon {
+            background-color: var(--neon-mint);
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 4px 10px rgba(0, 210, 132, 0.3);
+        }
+        .success-check-icon .material-icons { font-size: 3.5rem; }
+
         h1 {
             font-size: 1.5rem;
             font-weight: 800;
@@ -79,7 +94,6 @@
             margin-bottom: 20px;
         }
 
-        /* PESQUISA DE SATISFAÇÃO */
         .satisfaction-title {
             font-size: 0.95rem;
             font-weight: 700;
@@ -117,12 +131,10 @@
             color: #aaa;
         }
 
-        /* Cores solicitadas ao selecionar */
+        /* Cores de seleção específicas */
         .rating-option.selected.v-bad .material-icons,
         .rating-option.selected.bad .material-icons { color: var(--error-red); }
-        
         .rating-option.selected.medium .material-icons { color: var(--alert-orange); }
-        
         .rating-option.selected.good .material-icons,
         .rating-option.selected.v-good .material-icons { color: var(--neon-mint); }
 
@@ -152,6 +164,10 @@
 <body>
 
     <div class="alert-card">
+        <div class="success-check-icon">
+            <span class="material-icons">check</span>
+        </div>
+
         <h1>Obrigado, <span class="user-name" id="displayUserName">Gabriel</span>!</h1>
         
         <div class="info-text">
@@ -162,7 +178,7 @@
         <div class="medical-alert">
             <span class="material-icons" style="color: var(--alert-orange); font-size: 1.1rem;">warning</span>
             <div>
-                Importante: Por mais que você tenha sido orientado pelo farmacêutico, é de extrema importância manter o acompanhamento médico regular.
+                Por mais que você tenha sido orientado, é de extrema importância manter o acompanhamento médico regular.
             </div>
         </div>
 
