@@ -38,17 +38,40 @@
         .brand-1234 { color: var(--neon-mint); }
         .brand-farma { color: var(--tech-purple); }
 
-        .login-instructions { font-size: 1rem; margin-bottom: 30px; color: #777; line-height: 1.5; }
+        .login-instructions { font-size: 0.95rem; margin-bottom: 25px; color: #777; line-height: 1.4; }
+
+        .qr-shortcut-box {
+            background-color: #f0fff9;
+            border: 2px dashed var(--neon-mint);
+            padding: 15px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .qr-shortcut-box:active { transform: scale(0.97); }
+        .qr-title { font-weight: 800; font-size: 0.9rem; color: var(--tech-purple); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .qr-subtitle { font-size: 0.75rem; color: #666; margin-top: 4px; }
+
+        .divider { 
+            margin: 20px 0; 
+            display: flex; 
+            align-items: center; 
+            color: #bbb; 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            text-transform: uppercase;
+        }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #eee; margin: 0 10px; }
 
         .cpf-input-group { margin-bottom: 25px; text-align: left; }
         .cpf-label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--tech-purple); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* CAMPO CPF COM FONTE REDUZIDA */
         .cpf-fake-input {
             width: 100%; height: 50px; background-color: var(--input-bg);
             border-radius: 12px; border: 2px solid transparent;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; /* TAMANHO DA LETRA REDUZIDO */
+            font-size: 1.1rem;
             font-weight: 600; color: var(--tech-purple);
             letter-spacing: 1px; cursor: pointer; transition: all 0.3s;
         }
@@ -68,7 +91,6 @@
         .register-text { margin-top: 25px; font-size: 0.85rem; color: #888; }
         .register-link-btn { color: var(--tech-purple); font-weight: 800; cursor: pointer; text-decoration: none; border-bottom: 2px solid var(--neon-mint); padding-bottom: 2px; }
 
-        /* TECLADO VIRTUAL EXTRA SLIM */
         .numpad-overlay {
             position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 360px;
@@ -93,6 +115,23 @@
             font-size: 0.9rem; font-weight: 800; height: 38px; margin-top: 2px;
         }
 
+        #scannerOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--tech-purple); z-index: 2000;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            color: white; text-align: center;
+        }
+        .scanner-frame {
+            width: 250px; height: 250px; border: 4px solid var(--neon-mint);
+            border-radius: 24px; position: relative; margin-bottom: 30px; overflow: hidden;
+        }
+        .scanner-line {
+            width: 100%; height: 4px; background: var(--neon-mint);
+            position: absolute; top: 0; animation: scan 2s infinite linear;
+            box-shadow: 0 0 15px var(--neon-mint);
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
     </style>
 </head>
 <body>
@@ -103,8 +142,18 @@
                 <span class="brand-1234">1234</span><span class="brand-farma">Farma</span>
             </div>
             
-            <p class="login-instructions">Toque abaixo para digitar seu CPF.</p>
+            <p class="login-instructions">Seja bem-vindo! Como deseja prosseguir?</p>
             
+            <div class="qr-shortcut-box" onclick="abrirScanner()">
+                <div class="qr-title">
+                    <span class="material-icons">qr_code_scanner</span>
+                    RETIRAR COM QR CODE
+                </div>
+                <p class="qr-subtitle">Já comprou pelo app? Escaneie aqui.</p>
+            </div>
+
+            <div class="divider">OU DIGITE SEU CPF</div>
+
             <div class="cpf-input-group">
                 <label class="cpf-label">Seu CPF</label>
                 <div class="cpf-fake-input" id="cpfTrigger">
@@ -120,6 +169,13 @@
                 Não tem cadastro? <span class="register-link-btn" onclick="window.location.href='cadastro.html'">Criar conta</span>
             </div>
         </div>
+    </div>
+
+    <div id="scannerOverlay">
+        <div class="scanner-frame"><div class="scanner-line"></div></div>
+        <h2 style="font-weight: 800;">Aproxime o QR Code</h2>
+        <p style="margin-top: 10px; opacity: 0.8; font-size: 1rem;">Posicione o código do seu celular em frente ao leitor.</p>
+        <button onclick="fecharScanner()" style="margin-top: 40px; background: none; border: 1px solid rgba(255,255,255,0.3); color: white; padding: 12px 25px; border-radius: 12px; font-weight: 700;">CANCELAR</button>
     </div>
 
     <div class="numpad-overlay" id="numpad">
@@ -149,7 +205,7 @@
             e.stopPropagation();
             numpad.classList.add('open');
             trigger.classList.add('active');
-            loginCard.style.transform = "translateY(-40px)"; 
+            loginCard.style.transform = "translateY(-60px)"; 
         });
 
         function closePad() {
@@ -192,6 +248,21 @@
             } else {
                 alert("Por favor, digite o CPF completo.");
             }
+        }
+
+        function abrirScanner() {
+            document.getElementById('scannerOverlay').style.display = 'flex';
+            // Redireciona para a tela de confirmação após simular a leitura
+            setTimeout(() => {
+                if(document.getElementById('scannerOverlay').style.display === 'flex') {
+                    // Importante: Redireciona para a tela que você pediu
+                    window.location.href = 'confirmacaopedidoqrcode.html';
+                }
+            }, 3500);
+        }
+
+        function fecharScanner() {
+            document.getElementById('scannerOverlay').style.display = 'none';
         }
 
         document.getElementById('btnExternal').addEventListener('click', finalizar);
