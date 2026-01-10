@@ -116,7 +116,22 @@
         .btn-increase { background-color: var(--neon-mint); color: var(--white-pure); }
         .btn-increase:active { background-color: var(--tech-purple); color: var(--neon-mint); }
 
-        .empty-cart-message { text-align: center; padding: 40px; color: #999; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px;}
+        .empty-cart-message { text-align: center; padding: 40px; color: #999; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 15px;}
+        
+        /* BOTÃO VOLTAR PARA A LOJA NO CARRINHO VAZIO */
+        .btn-empty-back {
+            background-color: var(--tech-purple);
+            color: var(--neon-mint);
+            padding: 12px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
         /* FOOTER */
         footer { 
@@ -283,6 +298,9 @@
                         <div class="empty-cart-message">
                             <span class="material-icons" style="font-size: 4rem; opacity: 0.3;">shopping_cart_checkout</span>
                             <p>Seu carrinho está vazio.</p>
+                            <a href="loja.html" class="btn-empty-back">
+                                <span class="material-icons">store</span> VOLTAR PARA A LOJA
+                            </a>
                         </div>`;
                     totalValueDisplay.textContent = 'R$ 0,00';
                     return;
@@ -338,9 +356,8 @@
                 // Botão DIMINUIR
                 document.querySelectorAll('.btn-decrease').forEach(button => {
                     button.addEventListener('click', function() {
-                        // Importante: comparar como número ou string consistentemente
                         const id = this.getAttribute('data-id');
-                        const index = carrinhoBruto.findIndex(item => item.id == id); // '==' permite comparar "1" com 1
+                        const index = carrinhoBruto.findIndex(item => item.id == id);
                         if (index !== -1) {
                             carrinhoBruto.splice(index, 1);
                             salvarERenderizar();
@@ -354,7 +371,6 @@
                         const id = this.getAttribute('data-id');
                         const qtdAtual = carrinhoBruto.filter(item => item.id == id).length;
 
-                        // Trava de segurança (ex: 3 unidades)
                         if (qtdAtual >= 3) {
                             pendingItemId = id; 
                             qtyWarningModal.style.display = 'flex'; 
